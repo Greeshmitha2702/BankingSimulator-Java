@@ -7,6 +7,7 @@ public class CreateTable {
     public static void main(String[] args) {
         String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "accountNumber TEXT NOT NULL UNIQUE," +
                 "name TEXT NOT NULL," +
                 "balance REAL NOT NULL)";
 
@@ -14,10 +15,10 @@ public class CreateTable {
              Statement stmt = conn.createStatement()) {
 
             stmt.execute(sql);
-            System.out.println("Table created successfully!");
+            System.out.println("✅ Table created successfully!");
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
         }
     }
 }

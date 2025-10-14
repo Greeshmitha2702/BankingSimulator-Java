@@ -1,12 +1,23 @@
 package com.bank;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Bank bank = new Bank();
+
+        // ✅ Ensure table exists in DB
+        Database.createTableIfNotExists();
+
+        // ✅ Load existing accounts from DB
+        List<Account> existingAccounts = bank.getAllAccountsFromDB();
+        if (!existingAccounts.isEmpty()) {
+            System.out.println("📂 Previous accounts loaded from DB:");
+            existingAccounts.forEach(System.out::println);
+        }
 
         System.out.println("🏦 Welcome to Banking Simulator 🏦");
 
