@@ -12,7 +12,6 @@ public class Database {
     public static Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
-            System.out.println("Connected to SQLite database!");
             return conn;
         } catch (SQLException e) {
             System.out.println("❌ Database connection failed: " + e.getMessage());
@@ -24,11 +23,13 @@ public class Database {
     public static void createTableIfNotExists() {
         String createTableSQL = """
             CREATE TABLE IF NOT EXISTS accounts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                accountNumber TEXT NOT NULL UNIQUE,
-                accountHolder TEXT NOT NULL,
-                balance REAL NOT NULL
-            );
+                          id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          accountNumber TEXT NOT NULL UNIQUE,
+                          accountHolder TEXT NOT NULL,
+                          phone TEXT NOT NULL,
+                          balance REAL NOT NULL
+                      );
+                
         """;
 
         try (Connection conn = getConnection();
