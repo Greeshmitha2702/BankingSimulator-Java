@@ -21,7 +21,8 @@ public class Bank {
                 String accNo = rs.getString("accountNumber");
                 String holder = rs.getString("accountHolder");
                 double balance = rs.getDouble("balance");
-                accounts.add(new Account(accNo, holder, balance));
+                String phone=rs.getString("phone");
+                accounts.add(new Account(accNo, holder,phone, balance));
             }
 
         } catch (SQLException e) {
@@ -30,32 +31,53 @@ public class Bank {
 
         return accounts;
     }
+    // ✅ Name should contain only alphabets and spaces
+    public boolean isValidName(String name) {
+        return name != null && name.matches("[A-Za-z ]+");
+    }
+
+    // ✅ Amount should be positive
+    public boolean isPositive(double amount) {
+        return amount > 0;
+    }
+
+    // ✅ Phone number must be exactly 10 digits
+    public boolean isValidPhone(String phone) {
+        return phone != null && phone.matches("\\d{10}");
+    }
+
 
     // -----------------------------
     // Create new account
     // -----------------------------
-    public void createAccount(String accountNumber, String holderName, double initialDeposit) {
-        if (accountNumber == null || accountNumber.isEmpty()) {
-            System.out.println("❌ Invalid account number.");
+    public void createAccount(String holderName,String phone, double initialDeposit) {
+        if (!isValidName(holderName)) {
+            System.out.println("❌ Invalid name. Only alphabets allowed.");
             return;
         }
-        if (holderName == null || holderName.isEmpty()) {
-            System.out.println("❌ Invalid holder name.");
+        if (!isValidPhone(phone)) {
+            System.out.println("❌ Invalid phone number. Must be 10 digits.");
             return;
         }
-        if (initialDeposit <= 0) {
-            System.out.println("❌ Initial deposit must be greater than zero.");
+        if (!isPositive(initialDeposit)) {
+            System.out.println("❌ Invalid amount. Must be greater than 0.");
             return;
         }
 
-        String sql = "INSERT INTO accounts(accountNumber, accountHolder, balance) VALUES(?,?,?)";
+        String accountNumber = "ACC" + System.currentTimeMillis();
+        System.out.println("✅ Your Account Number: " + accountNumber);
+
+        String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance) VALUES(?,?,?,?)";
+
 
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, accountNumber);
             pstmt.setString(2, holderName);
-            pstmt.setDouble(3, initialDeposit);
+            pstmt.setString(3, phone);
+            pstmt.setDouble(4, initialDeposit);
+
             pstmt.executeUpdate();
 
             System.out.println("✅ Account created successfully for " + holderName + "!");
@@ -69,22 +91,31 @@ public class Bank {
     // Deposit money
     // -----------------------------
     public void deposit(String accountNumber, double amount) {
-        if (amount <= 0) {
+        if (!isPositive(amount)) {
             System.out.println("❌ Deposit amount must be greater than zero.");
             return;
         }
 
-        String sql = "UPDATE accounts SET balance = balance + ? WHERE accountNumber = ?";
+        String sqlUpdate = "UPDATE accounts SET balance = balance + ? WHERE accountNumber = ?";
+        String sqlSelect = "SELECT balance FROM accounts WHERE accountNumber = ?";
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+             PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect)) {
 
-            pstmt.setDouble(1, amount);
-            pstmt.setString(2, accountNumber);
-            int updated = pstmt.executeUpdate();
+            pstmtUpdate.setDouble(1, amount);
+            pstmtUpdate.setString(2, accountNumber);
+            int updated = pstmtUpdate.executeUpdate();
 
             if (updated > 0) {
-                System.out.println("✅ Deposited ₹" + amount + " successfully!");
+                // Fetch updated balance
+                pstmtSelect.setString(1, accountNumber);
+                ResultSet rs = pstmtSelect.executeQuery();
+                if (rs.next()) {
+                    double newBalance = rs.getDouble("balance");
+                    System.out.println("✅ Deposited ₹" + amount + " successfully!");
+                    System.out.println("💰 New Balance: ₹" + newBalance);
+                }
             } else {
                 System.out.println("❌ Account not found!");
             }
@@ -94,11 +125,12 @@ public class Bank {
         }
     }
 
+
     // -----------------------------
     // Withdraw money
     // -----------------------------
     public void withdraw(String accountNumber, double amount) {
-        if (amount <= 0) {
+        if (!isPositive(amount)) {
             System.out.println("❌ Withdrawal amount must be greater than zero.");
             return;
         }
@@ -127,13 +159,22 @@ public class Bank {
                 pstmtUpdate.setDouble(1, amount);
                 pstmtUpdate.setString(2, accountNumber);
                 pstmtUpdate.executeUpdate();
-                System.out.println("✅ Withdrew ₹" + amount + " successfully!");
+
+                // Fetch new balance
+                pstmtSelect.setString(1, accountNumber);
+                ResultSet rsNew = pstmtSelect.executeQuery();
+                if (rsNew.next()) {
+                    double newBalance = rsNew.getDouble("balance");
+                    System.out.println("✅ Withdrew ₹" + amount + " successfully!");
+                    System.out.println("💰 Remaining Balance: ₹" + newBalance);
+                }
             }
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
         }
     }
+
 
     // -----------------------------
     // Check balance
@@ -188,4 +229,18 @@ public class Bank {
             System.out.println("❌ Database error: " + e.getMessage());
         }
     }
+    // ✅ Check if account exists in DB
+    public boolean accountExists(String accountNumber) {
+        String sql = "SELECT 1 FROM accounts WHERE accountNumber = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, accountNumber);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // true if account exists
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

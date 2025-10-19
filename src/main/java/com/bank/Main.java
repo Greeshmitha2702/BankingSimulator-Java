@@ -13,11 +13,11 @@ public class Main {
         Database.createTableIfNotExists();
 
         // ✅ Load existing accounts from DB
-        List<Account> existingAccounts = bank.getAllAccountsFromDB();
-        if (!existingAccounts.isEmpty()) {
-            System.out.println("📂 Previous accounts loaded from DB:");
-            existingAccounts.forEach(System.out::println);
-        }
+        //List<Account> existingAccounts = bank.getAllAccountsFromDB();
+        //if (!existingAccounts.isEmpty()) {
+          //  System.out.println("📂 Previous accounts loaded from DB:");
+            //existingAccounts.forEach(System.out::println);
+        //}
 
         System.out.println("🏦 Welcome to Banking Simulator 🏦");
 
@@ -37,42 +37,107 @@ public class Main {
 
                 switch (choice) {
                     case 1 -> {
-                        System.out.print("Enter Account Number: ");
-                        String accNo = sc.nextLine();
+                        // STEP 1: Account Holder Name
+                        String holderName;
+                        while (true) {
+                            System.out.print("Enter Account Holder Name: ");
+                            holderName = sc.nextLine();
+                            if (bank.isValidName(holderName)) break;
+                            System.out.println("❌ Invalid name. Only alphabets allowed.");
+                        }
 
-                        System.out.print("Enter Account Holder Name: ");
-                        String holder = sc.nextLine();
+// STEP 2: Phone Number
+                        String phone;
+                        while (true) {
+                            System.out.print("Enter Phone Number: ");
+                            phone = sc.nextLine();
+                            if (bank.isValidPhone(phone)) break;
+                            System.out.println("❌ Invalid phone number. Must be exactly 10 digits.");
+                        }
 
-                        System.out.print("Enter Initial Deposit: ");
-                        double initBal = sc.nextDouble();
-                        sc.nextLine();
+// STEP 3: Initial Deposit
+                        double initDeposit;
+                        while (true) {
+                            try {
+                                System.out.print("Enter Initial Deposit: ");
+                                initDeposit = sc.nextDouble();
+                                sc.nextLine(); // consume newline
+                                if (bank.isPositive(initDeposit)) break;
+                                System.out.println("❌ Invalid amount. Must be greater than 0.");
+                            } catch (Exception e) {
+                                System.out.println("❌ Invalid input. Enter numbers only.");
+                                sc.nextLine(); // clear invalid input
+                            }
+                        }
 
-                        bank.createAccount(accNo, holder, initBal);
+// STEP 4: Create account
+                        bank.createAccount(holderName, phone, initDeposit);
+
+
                     }
                     case 2 -> {
-                        System.out.print("Enter Account Number: ");
-                        String accNo = sc.nextLine();
+                        String accNo;
+                        while (true) {
+                            System.out.print("Enter Account Number: ");
+                            accNo = sc.nextLine();
+                            if (bank.accountExists(accNo)) break;
+                            System.out.println("❌ Account not found. Please enter a valid account number.");
+                        }
 
-                        System.out.print("Enter Amount to Deposit: ");
-                        double depositAmt = sc.nextDouble();
-                        sc.nextLine();
+                        double depositAmt;
+                        while (true) {
+                            try {
+                                System.out.print("Enter Amount to Deposit: ");
+                                depositAmt = sc.nextDouble();
+                                sc.nextLine();
+                                if (bank.isPositive(depositAmt)) break;
+                                System.out.println("❌ Invalid amount. Must be greater than 0.");
+                            } catch (Exception e) {
+                                System.out.println("❌ Invalid input. Enter numbers only.");
+                                sc.nextLine(); // clear invalid input
+                            }
+                        }
 
                         bank.deposit(accNo, depositAmt);
+
                     }
                     case 3 -> {
-                        System.out.print("Enter Account Number: ");
-                        String accNo = sc.nextLine();
+                        String accNo;
+                        while (true) {
+                            System.out.print("Enter Account Number: ");
+                            accNo = sc.nextLine();
+                            if (bank.accountExists(accNo)) break;
+                            System.out.println("❌ Account not found. Please enter a valid account number.");
+                        }
 
-                        System.out.print("Enter Amount to Withdraw: ");
-                        double withdrawAmt = sc.nextDouble();
-                        sc.nextLine();
+                        double withdrawAmt;
+                        while (true) {
+                            try {
+                                System.out.print("Enter Amount to Withdraw: ");
+                                withdrawAmt = sc.nextDouble();
+                                sc.nextLine();
+                                if (bank.isPositive(withdrawAmt)) break;
+                                System.out.println("❌ Invalid amount. Must be greater than 0.");
+                            } catch (Exception e) {
+                                System.out.println("❌ Invalid input. Enter numbers only.");
+                                sc.nextLine();
+                            }
+                        }
 
                         bank.withdraw(accNo, withdrawAmt);
+
                     }
                     case 4 -> {
-                        System.out.print("Enter Account Number: ");
-                        String accNo = sc.nextLine();
+                        String accNo;
+                        while (true) {
+                            System.out.print("Enter Account Number: ");
+                            accNo = sc.nextLine();
+                            if (bank.accountExists(accNo)) break;
+                            System.out.println("❌ Account not found. Please enter a valid account number.");
+                        }
+
                         bank.checkBalance(accNo);
+
                     }
                     case 5 -> bank.displayAllAccounts();
                     case 6 -> {
