@@ -1,4 +1,4 @@
-package com.bank;
+package com.bank.model;
 
 public class Account {
     private final String accountNumber;

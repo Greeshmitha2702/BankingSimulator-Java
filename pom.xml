@@ -17,21 +17,26 @@
     </properties>
 
     <dependencies>
-        <!-- ✅ SQLite JDBC Driver (No external installation required) -->
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.46.0.0</version>
         </dependency>
 
-        <!-- Optional: For cleaner logging (no need for now, but useful later) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.12</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>
@@ -52,7 +57,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.bank.Main</mainClass>
+                    <mainClass>com.bank.app.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

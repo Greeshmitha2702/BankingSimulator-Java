@@ -1,4 +1,4 @@
-package com.bank;
+package com.bank.service;
 
 import com.bank.dao.Database;
 import com.bank.model.Account;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
+    private final TransactionService transactionService = new TransactionService();
 
     // -----------------------------
     // Load all accounts from database
@@ -117,6 +118,7 @@ public class Bank {
                 if (rs.next()) {
                     double newBalance = rs.getDouble("balance");
                     System.out.println("✅ Deposited ₹" + amount + " successfully!");
+                    com.bank.dao.TransactionDAO.recordTransaction(conn, accountNumber, "deposit", amount, null);
                     System.out.println("💰 New Balance: ₹" + newBalance);
                 }
             } else {
@@ -169,6 +171,7 @@ public class Bank {
                 if (rsNew.next()) {
                     double newBalance = rsNew.getDouble("balance");
                     System.out.println("✅ Withdrew ₹" + amount + " successfully!");
+                    com.bank.dao.TransactionDAO.recordTransaction(conn, accountNumber, "withdraw", amount, null);
                     System.out.println("💰 Remaining Balance: ₹" + newBalance);
                 }
             }
@@ -177,6 +180,70 @@ public class Bank {
             System.out.println("❌ Database error: " + e.getMessage());
         }
     }
+
+    public void transfer(String fromAccount, String toAccount, double amount) {
+        if (!isPositive(amount)) {
+            System.out.println("❌ Amount must be greater than zero.");
+            return;
+        }
+
+        if (!accountExists(toAccount)) {
+            System.out.println("❌ Target account not found!");
+            return;
+        }
+
+        String sqlCheck = "SELECT balance FROM accounts WHERE accountNumber = ?";
+        String sqlWithdraw = "UPDATE accounts SET balance = balance - ? WHERE accountNumber = ?";
+        String sqlDeposit = "UPDATE accounts SET balance = balance + ? WHERE accountNumber = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement checkStmt = conn.prepareStatement(sqlCheck)) {
+
+            checkStmt.setString(1, fromAccount);
+            ResultSet rs = checkStmt.executeQuery();
+            if (!rs.next()) {
+                System.out.println("❌ Source account not found!");
+                return;
+            }
+
+            double balance = rs.getDouble("balance");
+            if (balance < amount) {
+                System.out.println("❌ Insufficient balance for transfer!");
+                return;
+            }
+
+            conn.setAutoCommit(false);
+            try (PreparedStatement withdrawStmt = conn.prepareStatement(sqlWithdraw);
+                 PreparedStatement depositStmt = conn.prepareStatement(sqlDeposit)) {
+
+                withdrawStmt.setDouble(1, amount);
+                withdrawStmt.setString(2, fromAccount);
+                withdrawStmt.executeUpdate();
+
+                depositStmt.setDouble(1, amount);
+                depositStmt.setString(2, toAccount);
+                depositStmt.executeUpdate();
+
+                conn.commit();
+                System.out.println("✅ Transferred ₹" + amount + " from " + fromAccount + " → " + toAccount);// Record transaction for the source account
+                // Record transaction for sender (debit)
+                com.bank.dao.TransactionDAO.recordTransaction(conn, fromAccount, "transfer", amount, toAccount);
+
+                // Record transaction for receiver (credit)
+                com.bank.dao.TransactionDAO.recordTransaction(conn, toAccount, "credit", amount, fromAccount);
+
+            } catch (SQLException e) {
+                conn.rollback();
+                System.out.println("❌ Transfer failed: " + e.getMessage());
+            } finally {
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+        }
+    }
+
 
 
     // -----------------------------
