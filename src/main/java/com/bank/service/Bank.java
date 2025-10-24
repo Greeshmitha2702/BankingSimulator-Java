@@ -275,7 +275,7 @@ public class Bank {
     // Display all accounts
     // -----------------------------
     public void displayAllAccounts() {
-        String sql = "SELECT accountNumber, accountHolder, balance FROM accounts";
+        String sql = "SELECT accountNumber, accountHolder FROM accounts";
 
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();
@@ -287,8 +287,7 @@ public class Bank {
                 hasAccounts = true;
                 String accNo = rs.getString("accountNumber");
                 String holder = rs.getString("accountHolder");
-                double balance = rs.getDouble("balance");
-                System.out.println(holder + " (Account No: " + accNo + ", Balance: ₹" + balance + ")");
+                System.out.println(holder + " (Account No: " + accNo+")");
             }
 
             if (!hasAccounts) {
