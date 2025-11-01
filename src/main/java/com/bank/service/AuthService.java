@@ -71,6 +71,14 @@ public class AuthService {
 
             logger.info("✅ New user registered: {} linked to {} (email={})", username, accountNumber, email);
             System.out.println("✅ User registered successfully!");
+            if (email != null && !email.isEmpty()) {
+                EmailService.sendEmail(
+                        email,
+                        "Welcome to Banking Simulator 🎉",
+                        "Hello " + username + ",\n\nYour account has been successfully created and linked to " + accountNumber +
+                                ".\n\nHappy Banking!\n\n— Banking Simulator Team"
+                );
+            }
             return true;
 
         } catch (SQLException e) {

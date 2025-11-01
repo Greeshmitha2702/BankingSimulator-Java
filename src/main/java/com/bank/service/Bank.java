@@ -91,6 +91,23 @@ public class Bank {
             System.out.println("✅ Account created successfully for " + holderName + "!");
             System.out.println("💳 Your Account Number: " + accountNumber);
             logger.info("New account created: {} ({}) with initial deposit ₹{} and email {}", accountNumber, holderName, initialDeposit, email);
+            // Send a welcome email
+            try {
+                if (email != null && !email.isEmpty()) {
+                    EmailService.sendEmail(
+                            email,
+                            "Welcome to Banking Simulator 🎉",
+                            "Hello " + holderName + ",\n\n" +
+                                    "Your new account (" + accountNumber + ") has been successfully created with an initial balance of ₹" + initialDeposit + ".\n\n" +
+                                    "Thank you for choosing our Banking Simulator!\n\n" +
+                                    "— Banking Simulator Team"
+                    );
+                    logger.info("📨 Welcome email sent to {}", email);
+                }
+            } catch (Exception e) {
+                logger.error("❌ Failed to send welcome email to {}", email, e);
+            }
+
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
@@ -376,6 +393,30 @@ public class Bank {
 
             // Generate PDF report
             ReportGenerator.generatePDFReport(account, transactions);
+            // Fetch user's email
+            String emailQuery = "SELECT email FROM accounts WHERE accountNumber = ?";
+            String email = null;
+            try (PreparedStatement ps = conn.prepareStatement(emailQuery)) {
+                ps.setString(1, accountNumber);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    email = rs.getString("email");
+                }
+            }
+
+            if (email != null && !email.isEmpty()) {
+                String pdfPath = "reports/report_" + account.getAccountNumber() + ".pdf";
+                EmailService.sendEmailWithAttachment(
+                        email,
+                        "Your Account Report 📊",
+                        "Hello " + account.getAccountHolder() + ",\n\nAttached is your latest banking report.\n\n— Banking Simulator Team",
+                        pdfPath
+                );
+                logger.info("📧 Report emailed to {}", email);
+            } else {
+                System.out.println("⚠️ No email linked to this account. Report saved locally only.");
+            }
+
 
         } catch (Exception e) {
             System.out.println("❌ Error generating report: " + e.getMessage());

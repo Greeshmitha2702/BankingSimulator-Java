@@ -37,3 +37,45 @@
 2025-11-01 12:56:47 [INFO] com.bank.service.Bank - New account created: ACC1761982006973 (Lakshmi) with initial deposit ₹100.0 and email lbinguma2@gitam.in
 2025-11-01 12:57:41 [INFO] com.bank.service.AuthService - ✅ New user registered: Lakshmi linked to ACC1761982006973 (email=lbinguma2@gitam.in)
 2025-11-01 12:57:59 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 13:34:08 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 13:34:08 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 13:34:22 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 13:34:29 [INFO] com.bank.dao.TransactionDAO - Fetched 0 transactions for report (account: ACC1761982006973)
+2025-11-01 13:34:29 [INFO] com.bank.service.Bank - No transactions found for report generation (account: ACC1761982006973)
+2025-11-01 16:35:52 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 16:35:52 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 16:36:45 [INFO] com.bank.service.Bank - New account created: ACC1761995205860 (Lakshmi Greeshmitha) with initial deposit ₹200.0 and email greeshmitha2702@gmail.com
+2025-11-01 16:42:11 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 16:42:11 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 16:43:10 [INFO] com.bank.service.Bank - New account created: ACC1761995589999 (Greesh) with initial deposit ₹1000.0 and email lbinguma2@gitam.in
+2025-11-01 16:43:14 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-01 16:44:06 [INFO] com.bank.service.AuthService - ✅ New user registered: greesh linked to ACC1761995589999 (email=lbinguma2@gitam.in)
+2025-11-01 16:44:51 [WARN] com.bank.service.AuthService - Incorrect password for user: greesh
+2025-11-01 16:45:17 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 16:45:22 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹100.0 (Target: null)
+2025-11-01 16:45:22 [INFO] com.bank.service.Bank - Deposit ₹100.0 to account ACC1761995589999. New balance: ₹1100.0
+2025-11-01 16:45:28 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹200.0 (Target: null)
+2025-11-01 16:45:28 [INFO] com.bank.service.Bank - Withdrawal ₹200.0 from account ACC1761995589999. Remaining: ₹900.0
+2025-11-01 16:45:31 [INFO] com.bank.service.Bank - Checked balance for Greesh (ACC1761995589999): ₹900.0
+2025-11-01 16:45:37 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-01 16:45:56 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹500.0 (Target: ACC1761220447319)
+2025-11-01 16:45:56 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹500.0 (Target: ACC1761995589999)
+2025-11-01 16:45:56 [INFO] com.bank.service.Bank - Transfer ₹500.0 from ACC1761995589999 to ACC1761220447319
+2025-11-01 16:46:14 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹10.0 (Target: ACC1761220447319)
+2025-11-01 16:46:14 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹10.0 (Target: ACC1761995589999)
+2025-11-01 16:46:14 [INFO] com.bank.service.Bank - Transfer ₹10.0 from ACC1761995589999 to ACC1761220447319
+2025-11-01 16:46:27 [INFO] com.bank.dao.TransactionDAO - Fetched 4 transactions for report (account: ACC1761995589999)
+2025-11-01 16:46:28 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761995589999.pdf
+2025-11-01 16:46:31 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-01 16:50:24 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 16:50:24 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 16:50:34 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 16:50:37 [INFO] com.bank.dao.TransactionDAO - Fetched 4 transactions for report (account: ACC1761995589999)
+2025-11-01 16:50:38 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761995589999.pdf
+2025-11-01 16:50:41 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-01 16:53:02 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 16:53:02 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 16:53:12 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 16:53:15 [INFO] com.bank.dao.TransactionDAO - Fetched 4 transactions for report (account: ACC1761995589999)
+2025-11-01 16:53:15 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761995589999.pdf
+2025-11-01 16:53:20 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
