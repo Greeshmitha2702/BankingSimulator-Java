@@ -333,34 +333,50 @@ public class Bank {
     // -----------------------------
 // Generate Transaction Report
 // -----------------------------
+    // -----------------------------
+// Generate Transaction Report (PDF)
+// -----------------------------
     public void generateReport(String accountNumber) {
-        System.out.println("📊 Generating report for account: " + accountNumber);
-
         try (Connection conn = Database.getConnection()) {
-            String accQuery = "SELECT accountHolder, balance FROM accounts WHERE accountNumber = ?";
-            PreparedStatement ps = conn.prepareStatement(accQuery);
-            ps.setString(1, accountNumber);
-            var rs = ps.executeQuery();
 
-            if (!rs.next()) {
-                System.out.println("❌ Account not found!");
+            // Fetch account details directly from DB
+            String sql = "SELECT accountNumber, accountHolder, phone, balance FROM accounts WHERE accountNumber = ?";
+            Account account = null;
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, accountNumber);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    account = new Account(
+                            rs.getString("accountNumber"),
+                            rs.getString("accountHolder"),
+                            rs.getString("phone"),
+                            rs.getDouble("balance")
+                    );
+                }
+            }
+
+            if (account == null) {
+                System.out.println("❌ Account not found for number: " + accountNumber);
                 logger.warn("Report generation failed — account {} not found", accountNumber);
                 return;
             }
 
-            String holder = rs.getString("accountHolder");
-            double balance = rs.getDouble("balance");
+            // Fetch all transactions for this account
+            List<String[]> transactions = TransactionDAO.getTransactionsByAccount(accountNumber);
 
-            var transactions = TransactionDAO.getTransactionsByAccount(accountNumber);
-            ReportGenerator.generateCSVReport(accountNumber, holder, balance, transactions);
+            if (transactions.isEmpty()) {
+                System.out.println("⚠️ No transactions found for this account.");
+                logger.info("No transactions found for report generation (account: {})", accountNumber);
+                return;
+            }
 
-            System.out.println("✅ Report generated successfully: report_" + accountNumber + ".csv");
-            logger.info("Report generated for account {}", accountNumber);
+            // Generate PDF report
+            ReportGenerator.generatePDFReport(account, transactions);
 
         } catch (Exception e) {
             System.out.println("❌ Error generating report: " + e.getMessage());
             logger.error("Error generating report for account {}", accountNumber, e);
         }
     }
-
 }

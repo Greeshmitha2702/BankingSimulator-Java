@@ -185,9 +185,9 @@ public class Main {
                         return;
                     }
                     case 8 -> {
-                        System.out.print("💳 Enter Account Number: ");
-                        String acc = sc.nextLine();
-                        bank.generateReport(acc);
+                        System.out.println("📊 Generating your account report...");
+                        String accNo = auth.getLinkedAccount(username);
+                        bank.generateReport(accNo);
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }
