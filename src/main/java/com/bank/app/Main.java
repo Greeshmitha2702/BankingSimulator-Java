@@ -107,6 +107,7 @@ public class Main {
                 System.out.println("6️⃣ Transfer Money");
                 System.out.println("7️⃣ Logout");
                 System.out.println("8️⃣ Generate Account Report");
+                System.out.println("9️⃣ Set Alert Threshold");
                 System.out.print("Enter your choice: ");
 
                 int choice = sc.nextInt();
@@ -188,6 +189,13 @@ public class Main {
                         System.out.println("📊 Generating your account report...");
                         String accNo = auth.getLinkedAccount(username);
                         bank.generateReport(accNo);
+                    }
+                    case 9 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        System.out.print("Enter new alert threshold amount (₹): ");
+                        double threshold = sc.nextDouble();
+                        sc.nextLine(); // consume newline
+                        bank.setAlertThreshold(accNo, threshold);
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }

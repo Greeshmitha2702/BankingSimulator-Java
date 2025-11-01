@@ -197,6 +197,7 @@ public class Bank {
                 System.out.println("✅ Withdrew ₹" + amount + " successfully!");
                 System.out.println("💰 Remaining Balance: ₹" + (balance - amount));
                 logger.info("Withdrawal ₹{} from account {}. Remaining: ₹{}", amount, accountNumber, (balance - amount));
+                checkAndSendLowBalanceAlert(conn, accountNumber);
             }
 
         } catch (SQLException e) {
@@ -260,6 +261,7 @@ public class Bank {
 
                 System.out.println("✅ Transferred ₹" + amount + " from " + fromAccount + " → " + toAccount);
                 logger.info("Transfer ₹{} from {} to {}", amount, fromAccount, toAccount);
+                checkAndSendLowBalanceAlert(conn, fromAccount);
 
             } catch (SQLException e) {
                 conn.rollback();
@@ -292,6 +294,7 @@ public class Bank {
                 double balance = rs.getDouble("balance");
                 System.out.println("💰 Balance for " + holder + ": ₹" + balance);
                 logger.info("Checked balance for {} ({}): ₹{}", holder, accountNumber, balance);
+                checkAndSendLowBalanceAlert(conn, accountNumber);
             } else {
                 System.out.println("❌ Account not found!");
                 logger.warn("Balance check failed — account {} not found", accountNumber);
@@ -421,6 +424,56 @@ public class Bank {
         } catch (Exception e) {
             System.out.println("❌ Error generating report: " + e.getMessage());
             logger.error("Error generating report for account {}", accountNumber, e);
+        }
+    }
+
+    // -----------------------------
+// 🔔 Low Balance Alert Helper
+// -----------------------------
+    private void checkAndSendLowBalanceAlert(Connection conn, String accountNumber) {
+        String sql = "SELECT accountHolder, email, balance, alertThreshold FROM accounts WHERE accountNumber = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, accountNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String holder = rs.getString("accountHolder");
+                String email = rs.getString("email");
+                double balance = rs.getDouble("balance");
+                double threshold = rs.getDouble("alertThreshold");
+
+                if (balance < threshold && email != null && !email.isEmpty()) {
+                    String subject = "⚠️ Low Balance Alert: Your Account " + accountNumber;
+                    String body = "Dear " + holder + ",\n\n" +
+                            "Your current account balance is ₹" + balance + ", which is below your set threshold of ₹" + threshold + ".\n" +
+                            "Please deposit funds to avoid service interruptions.\n\n" +
+                            "— Banking Simulator Team";
+
+                    EmailService.sendEmail(email, subject, body);
+                    logger.info("📧 Low balance alert sent to {} for account {} (₹{})", email, accountNumber, balance);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("❌ Failed to send low balance alert for {}", accountNumber, e);
+        }
+    }
+    // -----------------------------
+// ⚙️ Set Alert Threshold
+// -----------------------------
+    public void setAlertThreshold(String accountNumber, double newThreshold) {
+        String sql = "UPDATE accounts SET alertThreshold = ? WHERE accountNumber = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDouble(1, newThreshold);
+            ps.setString(2, accountNumber);
+            int updated = ps.executeUpdate();
+            if (updated > 0) {
+                System.out.println("✅ Alert threshold updated to ₹" + newThreshold);
+                logger.info("Alert threshold updated to ₹{} for account {}", newThreshold, accountNumber);
+            } else {
+                System.out.println("❌ Account not found or update failed.");
+            }
+        } catch (Exception e) {
+            logger.error("❌ Failed to update alert threshold for {}", accountNumber, e);
         }
     }
 }

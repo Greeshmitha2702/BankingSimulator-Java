@@ -79,3 +79,86 @@
 2025-11-01 16:53:15 [INFO] com.bank.dao.TransactionDAO - Fetched 4 transactions for report (account: ACC1761995589999)
 2025-11-01 16:53:15 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761995589999.pdf
 2025-11-01 16:53:20 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-01 17:23:26 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 17:23:26 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 17:23:58 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 17:24:40 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹100.0 (Target: ACC1761155324243)
+2025-11-01 17:24:40 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹100.0 (Target: ACC1761982006973)
+2025-11-01 17:24:40 [INFO] com.bank.service.Bank - Transfer ₹100.0 from ACC1761982006973 to ACC1761155324243
+2025-11-01 17:24:51 [INFO] com.bank.dao.TransactionDAO - Fetched 1 transactions for report (account: ACC1761982006973)
+2025-11-01 17:24:51 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761982006973.pdf
+2025-11-01 17:24:55 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-01 17:25:27 [INFO] com.bank.service.Bank - New account created: ACC1761998127955 (Bingumalla Greeshmitha) with initial deposit ₹500.0 and email greeshmitha2702@gmail.com
+2025-11-01 17:25:31 [INFO] com.bank.service.Bank - 📨 Welcome email sent to greeshmitha2702@gmail.com
+2025-11-01 17:25:54 [INFO] com.bank.service.AuthService - ✅ New user registered: Greeshu linked to ACC1761998127955 (email=greeshmitha2702@gmail.com)
+2025-11-01 17:26:47 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greeshu
+2025-11-01 17:26:49 [INFO] com.bank.dao.TransactionDAO - Fetched 0 transactions for report (account: ACC1761998127955)
+2025-11-01 17:26:49 [INFO] com.bank.service.Bank - No transactions found for report generation (account: ACC1761998127955)
+2025-11-01 17:30:46 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greeshu
+2025-11-01 17:30:48 [INFO] com.bank.dao.TransactionDAO - Fetched 0 transactions for report (account: ACC1761998127955)
+2025-11-01 17:30:48 [INFO] com.bank.service.Bank - No transactions found for report generation (account: ACC1761998127955)
+2025-11-01 17:30:53 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹100.0 (Target: null)
+2025-11-01 17:30:53 [INFO] com.bank.service.Bank - Deposit ₹100.0 to account ACC1761998127955. New balance: ₹600.0
+2025-11-01 17:30:57 [INFO] com.bank.dao.TransactionDAO - Fetched 1 transactions for report (account: ACC1761998127955)
+2025-11-01 17:30:57 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761998127955.pdf
+2025-11-01 17:31:01 [INFO] com.bank.service.Bank - 📧 Report emailed to greeshmitha2702@gmail.com
+2025-11-01 17:57:30 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 17:57:30 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 17:57:45 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
+2025-11-01 17:57:58 [ERROR] com.bank.service.Bank - ❌ Failed to update alert threshold for ACC1761145533500
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: alertThreshold)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.setAlertThreshold(Bank.java:464)
+	at com.bank.app.Main.bankingMenu(Main.java:198)
+	at com.bank.app.Main.main(Main.java:51)
+2025-11-01 17:58:16 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 17:58:19 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹0.0
+2025-11-01 17:58:29 [ERROR] com.bank.service.Bank - ❌ Failed to update alert threshold for ACC1761982006973
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such column: alertThreshold)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.setAlertThreshold(Bank.java:464)
+	at com.bank.app.Main.bankingMenu(Main.java:198)
+	at com.bank.app.Main.main(Main.java:51)
+2025-11-01 18:02:32 [INFO] com.bank.service.Bank - Alert threshold updated to ₹50.0 for account ACC1761982006973
+2025-11-01 18:02:49 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹0.0
+2025-11-01 18:36:35 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 18:36:35 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 18:36:47 [WARN] com.bank.service.AuthService - Incorrect password for user: Lakshmi
+2025-11-01 18:37:06 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 18:37:26 [INFO] com.bank.service.Bank - Alert threshold updated to ₹50.0 for account ACC1761982006973
+2025-11-01 18:37:41 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹0.0
+2025-11-01 18:38:00 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹50.0 (Target: null)
+2025-11-01 18:38:00 [INFO] com.bank.service.Bank - Deposit ₹50.0 to account ACC1761982006973. New balance: ₹50.0
+2025-11-01 18:38:08 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹25.0 (Target: null)
+2025-11-01 18:38:08 [INFO] com.bank.service.Bank - Withdrawal ₹25.0 from account ACC1761982006973. Remaining: ₹25.0
+2025-11-01 18:38:13 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1761982006973 (₹25.0)
+2025-11-01 18:41:08 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 18:41:08 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 18:41:20 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 18:41:23 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹25.0
+2025-11-01 18:41:27 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1761982006973 (₹25.0)
+2025-11-01 18:41:55 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹100.0 (Target: null)
+2025-11-01 18:41:55 [INFO] com.bank.service.Bank - Deposit ₹100.0 to account ACC1761982006973. New balance: ₹125.0
+2025-11-01 18:41:58 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹125.0
