@@ -1,0 +1,9 @@
+2025-11-01 10:07:27 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 10:08:08 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
+2025-11-01 10:08:18 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹1000.0 (Target: null)
+2025-11-01 10:08:18 [INFO] com.bank.service.Bank - Withdrawal ₹1000.0 from account ACC1761145533500. Remaining: ₹633.0
+2025-11-01 10:09:48 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-01 10:10:05 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹200.0 (Target: ACC1761220447319)
+2025-11-01 10:10:05 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹200.0 (Target: ACC1761145533500)
+2025-11-01 10:10:05 [INFO] com.bank.service.Bank - Transfer ₹200.0 from ACC1761145533500 to ACC1761220447319
+2025-11-01 10:10:12 [INFO] com.bank.service.Bank - Checked balance for greeshmitha (ACC1761145533500): ₹433.0

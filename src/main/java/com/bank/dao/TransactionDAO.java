@@ -1,5 +1,7 @@
 package com.bank.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,7 +9,8 @@ import java.sql.Statement;
 
 public class TransactionDAO {
 
-    // Create transactions table
+    private static final Logger logger = LoggerFactory.getLogger(TransactionDAO.class);
+
     public static void createTableIfNotExists() {
         String sql = """
             CREATE TABLE IF NOT EXISTS transactions (
@@ -25,12 +28,13 @@ public class TransactionDAO {
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
             System.out.println("✅ Transactions table ready.");
+            logger.info("Transactions table verified/created successfully.");
         } catch (SQLException e) {
             System.out.println("❌ Error creating transactions table: " + e.getMessage());
+            logger.error("Failed to create transactions table", e);
         }
     }
 
-    // Record transaction using existing connection (prevents SQLite lock)
     public static void recordTransaction(Connection conn, String accountNumber, String type, double amount, String targetAccount) {
         String sql = "INSERT INTO transactions(accountNumber, type, amount, targetAccount) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -39,8 +43,11 @@ public class TransactionDAO {
             ps.setDouble(3, amount);
             ps.setString(4, targetAccount);
             ps.executeUpdate();
+
+            logger.info("Transaction recorded: {} ₹{} (Target: {})", type, amount, targetAccount);
         } catch (SQLException e) {
             System.out.println("⚠️ Error recording transaction: " + e.getMessage());
+            logger.error("Failed to record transaction for account {}", accountNumber, e);
         }
     }
 }

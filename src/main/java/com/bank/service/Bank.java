@@ -2,12 +2,16 @@ package com.bank.service;
 
 import com.bank.dao.Database;
 import com.bank.model.Account;
+import com.bank.dao.TransactionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
+    private static final Logger logger = LoggerFactory.getLogger(Bank.class);
     private final TransactionService transactionService = new TransactionService();
 
     // -----------------------------
@@ -15,7 +19,7 @@ public class Bank {
     // -----------------------------
     public List<Account> getAllAccountsFromDB() {
         List<Account> accounts = new ArrayList<>();
-        String sql = "SELECT accountNumber, accountHolder, balance FROM accounts";
+        String sql = "SELECT accountNumber, accountHolder, phone, balance FROM accounts";
 
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement();
@@ -24,37 +28,38 @@ public class Bank {
             while (rs.next()) {
                 String accNo = rs.getString("accountNumber");
                 String holder = rs.getString("accountHolder");
+                String phone = rs.getString("phone");
                 double balance = rs.getDouble("balance");
-                String phone=rs.getString("phone");
-                accounts.add(new Account(accNo, holder,phone, balance));
+                accounts.add(new Account(accNo, holder, phone, balance));
             }
+
+            logger.info("Loaded {} accounts from database", accounts.size());
 
         } catch (SQLException e) {
             System.out.println("❌ Failed to load accounts: " + e.getMessage());
+            logger.error("Error loading accounts from DB", e);
         }
 
         return accounts;
     }
-    // ✅ Name should contain only alphabets and spaces
+
+    // ✅ Validation helpers
     public boolean isValidName(String name) {
         return name != null && name.matches("[A-Za-z ]+");
     }
 
-    // ✅ Amount should be positive
     public boolean isPositive(double amount) {
         return amount > 0;
     }
 
-    // ✅ Phone number must be exactly 10 digits
     public boolean isValidPhone(String phone) {
         return phone != null && phone.matches("\\d{10}");
     }
 
-
     // -----------------------------
     // Create new account
     // -----------------------------
-    public void createAccount(String holderName,String phone, double initialDeposit) {
+    public void createAccount(String holderName, String phone, double initialDeposit) {
         if (!isValidName(holderName)) {
             System.out.println("❌ Invalid name. Only alphabets allowed.");
             return;
@@ -69,10 +74,7 @@ public class Bank {
         }
 
         String accountNumber = "ACC" + System.currentTimeMillis();
-        System.out.println("✅ Your Account Number: " + accountNumber);
-
         String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance) VALUES(?,?,?,?)";
-
 
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -81,13 +83,15 @@ public class Bank {
             pstmt.setString(2, holderName);
             pstmt.setString(3, phone);
             pstmt.setDouble(4, initialDeposit);
-
             pstmt.executeUpdate();
 
             System.out.println("✅ Account created successfully for " + holderName + "!");
+            System.out.println("💳 Your Account Number: " + accountNumber);
+            logger.info("New account created: {} ({}) with initial deposit ₹{}", accountNumber, holderName, initialDeposit);
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error creating account for {}", holderName, e);
         }
     }
 
@@ -112,24 +116,25 @@ public class Bank {
             int updated = pstmtUpdate.executeUpdate();
 
             if (updated > 0) {
-                // Fetch updated balance
                 pstmtSelect.setString(1, accountNumber);
                 ResultSet rs = pstmtSelect.executeQuery();
                 if (rs.next()) {
                     double newBalance = rs.getDouble("balance");
                     System.out.println("✅ Deposited ₹" + amount + " successfully!");
-                    com.bank.dao.TransactionDAO.recordTransaction(conn, accountNumber, "deposit", amount, null);
+                    TransactionDAO.recordTransaction(conn, accountNumber, "deposit", amount, null);
                     System.out.println("💰 New Balance: ₹" + newBalance);
+                    logger.info("Deposit ₹{} to account {}. New balance: ₹{}", amount, accountNumber, newBalance);
                 }
             } else {
                 System.out.println("❌ Account not found!");
+                logger.warn("Deposit failed — account {} not found", accountNumber);
             }
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error during deposit for account {}", accountNumber, e);
         }
     }
-
 
     // -----------------------------
     // Withdraw money
@@ -149,14 +154,16 @@ public class Bank {
             pstmtSelect.setString(1, accountNumber);
             ResultSet rs = pstmtSelect.executeQuery();
 
-            if (rs.next()) {
-                double balance = rs.getDouble("balance");
-                if (amount > balance) {
-                    System.out.println("❌ Insufficient balance!");
-                    return;
-                }
-            } else {
+            if (!rs.next()) {
                 System.out.println("❌ Account not found!");
+                logger.warn("Withdrawal failed — account {} not found", accountNumber);
+                return;
+            }
+
+            double balance = rs.getDouble("balance");
+            if (amount > balance) {
+                System.out.println("❌ Insufficient balance!");
+                logger.warn("Withdrawal failed — insufficient balance in account {}", accountNumber);
                 return;
             }
 
@@ -165,30 +172,29 @@ public class Bank {
                 pstmtUpdate.setString(2, accountNumber);
                 pstmtUpdate.executeUpdate();
 
-                // Fetch new balance
-                pstmtSelect.setString(1, accountNumber);
-                ResultSet rsNew = pstmtSelect.executeQuery();
-                if (rsNew.next()) {
-                    double newBalance = rsNew.getDouble("balance");
-                    System.out.println("✅ Withdrew ₹" + amount + " successfully!");
-                    com.bank.dao.TransactionDAO.recordTransaction(conn, accountNumber, "withdraw", amount, null);
-                    System.out.println("💰 Remaining Balance: ₹" + newBalance);
-                }
+                TransactionDAO.recordTransaction(conn, accountNumber, "withdraw", amount, null);
+                System.out.println("✅ Withdrew ₹" + amount + " successfully!");
+                System.out.println("💰 Remaining Balance: ₹" + (balance - amount));
+                logger.info("Withdrawal ₹{} from account {}. Remaining: ₹{}", amount, accountNumber, (balance - amount));
             }
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error during withdrawal for account {}", accountNumber, e);
         }
     }
 
+    // -----------------------------
+    // Transfer money
+    // -----------------------------
     public void transfer(String fromAccount, String toAccount, double amount) {
         if (!isPositive(amount)) {
             System.out.println("❌ Amount must be greater than zero.");
             return;
         }
-
         if (!accountExists(toAccount)) {
             System.out.println("❌ Target account not found!");
+            logger.warn("Transfer failed — target account {} not found", toAccount);
             return;
         }
 
@@ -203,12 +209,14 @@ public class Bank {
             ResultSet rs = checkStmt.executeQuery();
             if (!rs.next()) {
                 System.out.println("❌ Source account not found!");
+                logger.warn("Transfer failed — source account {} not found", fromAccount);
                 return;
             }
 
             double balance = rs.getDouble("balance");
             if (balance < amount) {
                 System.out.println("❌ Insufficient balance for transfer!");
+                logger.warn("Transfer failed — insufficient balance in {}", fromAccount);
                 return;
             }
 
@@ -224,27 +232,27 @@ public class Bank {
                 depositStmt.setString(2, toAccount);
                 depositStmt.executeUpdate();
 
-                conn.commit();
-                System.out.println("✅ Transferred ₹" + amount + " from " + fromAccount + " → " + toAccount);// Record transaction for the source account
-                // Record transaction for sender (debit)
-                com.bank.dao.TransactionDAO.recordTransaction(conn, fromAccount, "transfer", amount, toAccount);
+                TransactionDAO.recordTransaction(conn, fromAccount, "transfer", amount, toAccount);
+                TransactionDAO.recordTransaction(conn, toAccount, "credit", amount, fromAccount);
 
-                // Record transaction for receiver (credit)
-                com.bank.dao.TransactionDAO.recordTransaction(conn, toAccount, "credit", amount, fromAccount);
+                conn.commit();
+
+                System.out.println("✅ Transferred ₹" + amount + " from " + fromAccount + " → " + toAccount);
+                logger.info("Transfer ₹{} from {} to {}", amount, fromAccount, toAccount);
 
             } catch (SQLException e) {
                 conn.rollback();
                 System.out.println("❌ Transfer failed: " + e.getMessage());
+                logger.error("Transfer rollback — {}", e.getMessage(), e);
             } finally {
                 conn.setAutoCommit(true);
             }
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error during transfer between {} and {}", fromAccount, toAccount, e);
         }
     }
-
-
 
     // -----------------------------
     // Check balance
@@ -262,12 +270,15 @@ public class Bank {
                 String holder = rs.getString("accountHolder");
                 double balance = rs.getDouble("balance");
                 System.out.println("💰 Balance for " + holder + ": ₹" + balance);
+                logger.info("Checked balance for {} ({}): ₹{}", holder, accountNumber, balance);
             } else {
                 System.out.println("❌ Account not found!");
+                logger.warn("Balance check failed — account {} not found", accountNumber);
             }
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error checking balance for account {}", accountNumber, e);
         }
     }
 
@@ -287,29 +298,35 @@ public class Bank {
                 hasAccounts = true;
                 String accNo = rs.getString("accountNumber");
                 String holder = rs.getString("accountHolder");
-                System.out.println(holder + " (Account No: " + accNo+")");
+                System.out.println(holder + " (Account No: " + accNo + ")");
             }
 
             if (!hasAccounts) {
                 System.out.println("⚠️ No accounts to display.");
             }
 
+            logger.info("Displayed all accounts.");
+
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error displaying all accounts", e);
         }
     }
-    // ✅ Check if account exists in DB
+
+    // -----------------------------
+    // Utility
+    // -----------------------------
     public boolean accountExists(String accountNumber) {
         String sql = "SELECT 1 FROM accounts WHERE accountNumber = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, accountNumber);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // true if account exists
+            return rs.next();
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
+            logger.error("Error checking existence of account {}", accountNumber, e);
             return false;
         }
     }
-
 }
