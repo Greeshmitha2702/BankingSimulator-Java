@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 import com.bank.report.ReportGenerator;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Bank {
+    private static final Scanner sc = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Bank.class);
     private final TransactionService transactionService = new TransactionService();
 
@@ -474,6 +474,155 @@ public class Bank {
             }
         } catch (Exception e) {
             logger.error("❌ Failed to update alert threshold for {}", accountNumber, e);
+        }
+    }
+    // ----------------------------
+    // PIN VALIDATION
+    // ----------------------------
+    private boolean verifyPin(Connection conn, String accountNumber) throws SQLException {
+        String query = "SELECT pin, locked FROM accounts WHERE accountNumber = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, accountNumber);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String correctPin = rs.getString("pin");
+                boolean locked = rs.getInt("locked") == 1;
+
+                if (locked) {
+                    System.out.println("🔒 Account is locked due to too many wrong attempts!");
+                    logger.warn("Locked account attempted access: {}", accountNumber);
+                    return false;
+                }
+
+                int attempts = 0;
+                while (attempts < 3) {
+                    System.out.print("Enter your 4-digit PIN: ");
+                    String enteredPin = sc.nextLine();
+                    if (enteredPin.equals(correctPin)) {
+                        return true;
+                    } else {
+                        attempts++;
+                        System.out.println("❌ Incorrect PIN (" + attempts + "/3)");
+                    }
+                }
+
+                // Lock account after 3 failed attempts
+                String lockSql = "UPDATE accounts SET locked = 1 WHERE accountNumber = ?";
+                try (PreparedStatement lockStmt = conn.prepareStatement(lockSql)) {
+                    lockStmt.setString(1, accountNumber);
+                    lockStmt.executeUpdate();
+                }
+
+                System.out.println("🔒 Account locked due to 3 incorrect attempts!");
+                logger.warn("Account locked: {}", accountNumber);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    // ----------------------------
+    // UPDATE ACCOUNT DETAILS
+    // ----------------------------
+    public void updateAccountDetails(String accountNumber) {
+        String sql = "UPDATE accounts SET accountHolder = ?, phone = ?, email = ? WHERE accountNumber = ?";
+
+        try (Connection conn = Database.getConnection()) {
+            if (!verifyPin(conn, accountNumber)) return;
+
+            System.out.print("Enter new Name: ");
+            String newName = sc.nextLine();
+            System.out.print("Enter new Phone Number: ");
+            String newPhone = sc.nextLine();
+            System.out.print("Enter new Email: ");
+            String newEmail = sc.nextLine();
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, newName);
+                pstmt.setString(2, newPhone);
+                pstmt.setString(3, newEmail);
+                pstmt.setString(4, accountNumber);
+
+                int updated = pstmt.executeUpdate();
+                if (updated > 0) {
+                    System.out.println("✅ Account details updated successfully!");
+                    logger.info("Updated details for {}", accountNumber);
+                } else {
+                    System.out.println("❌ Failed to update account.");
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error updating account details", e);
+        }
+    }
+
+    // ----------------------------
+    // DELETE ACCOUNT
+    // ----------------------------
+    public void deleteAccount(String accountNumber) {
+        try (Connection conn = Database.getConnection()) {
+            if (!verifyPin(conn, accountNumber)) return;
+
+            System.out.print("Are you sure you want to delete this account? Type YES to confirm: ");
+            String confirm = sc.nextLine();
+            if (!confirm.equalsIgnoreCase("YES")) {
+                System.out.println("❌ Account deletion cancelled.");
+                return;
+            }
+
+            // Delete transactions first (optional)
+            try (PreparedStatement delTx = conn.prepareStatement("DELETE FROM transactions WHERE accountNumber = ?")) {
+                delTx.setString(1, accountNumber);
+                delTx.executeUpdate();
+            }
+
+            try (PreparedStatement delAcc = conn.prepareStatement("DELETE FROM accounts WHERE accountNumber = ?")) {
+                delAcc.setString(1, accountNumber);
+                int deleted = delAcc.executeUpdate();
+
+                if (deleted > 0) {
+                    System.out.println("✅ Account deleted successfully.");
+                    logger.warn("Account deleted: {}", accountNumber);
+                } else {
+                    System.out.println("❌ Account not found.");
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error deleting account", e);
+        }
+    }
+    // ----------------------------
+    // FORGOT PIN
+    // ----------------------------
+    public void forgotPin(String accountNumber) {
+        String sql = "SELECT email, accountHolder FROM accounts WHERE accountNumber = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, accountNumber);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String email = rs.getString("email");
+                String name = rs.getString("accountHolder");
+                String newPin = String.format("%04d", (int) (Math.random() * 10000));
+
+                try (PreparedStatement updatePin = conn.prepareStatement("UPDATE accounts SET pin = ?, locked = 0 WHERE accountNumber = ?")) {
+                    updatePin.setString(1, newPin);
+                    updatePin.setString(2, accountNumber);
+                    updatePin.executeUpdate();
+                }
+
+                EmailService.sendEmail(email, "🔑 Your New Banking PIN",
+                        "Hello " + name + ",\n\nYour new 4-digit PIN is: " + newPin +
+                                "\n\nPlease keep it confidential.\n\n- Banking Simulator");
+                System.out.println("📧 New PIN has been sent to your registered email.");
+            } else {
+                System.out.println("❌ Account not found.");
+            }
+        } catch (Exception e) {
+            logger.error("Error in forgotPin", e);
         }
     }
 }

@@ -108,6 +108,9 @@ public class Main {
                 System.out.println("7️⃣ Logout");
                 System.out.println("8️⃣ Generate Account Report");
                 System.out.println("9️⃣ Set Alert Threshold");
+                System.out.println("🔟 Update Account Details");
+                System.out.println("1️⃣1️⃣ Delete Account");
+                System.out.println("1️⃣2️⃣ Forgot PIN");
                 System.out.print("Enter your choice: ");
 
                 int choice = sc.nextInt();
@@ -196,6 +199,18 @@ public class Main {
                         double threshold = sc.nextDouble();
                         sc.nextLine(); // consume newline
                         bank.setAlertThreshold(accNo, threshold);
+                    }
+                    case 10 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        bank.updateAccountDetails(accNo);
+                    }
+                    case 11 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        bank.deleteAccount(accNo);
+                    }
+                    case 12 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        bank.forgotPin(accNo);
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }
