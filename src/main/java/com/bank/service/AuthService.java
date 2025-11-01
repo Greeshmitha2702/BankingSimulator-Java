@@ -12,7 +12,7 @@ public class AuthService {
 
     // ✅ Login existing user
     public boolean loginUser(String username, String password) {
-        String sql = "SELECT password FROM users WHERE username = ?";
+        String sql = "SELECT password, locked FROM users WHERE username = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -25,8 +25,14 @@ public class AuthService {
                 return false;
             }
 
-            String storedPass = rs.getString("password");
-            if (PasswordUtil.checkPassword(password, storedPass)) {
+            boolean locked = rs.getInt("locked") == 1;
+            if (locked) {
+                System.out.println("🔒 Your user is locked. Use Forgot Password to reset and unlock.");
+                return false;
+            }
+
+            String storedHash = rs.getString("password");
+            if (PasswordUtil.checkPassword(password, storedHash)) {
                 logger.info("✅ Login successful for user: {}", username);
                 System.out.println("✅ Login successful. Welcome, " + username + "!");
                 return true;
@@ -43,10 +49,9 @@ public class AuthService {
         }
     }
 
-    // ✅ Register new user linked to account number
-    // ✅ Register new user linked to account number (also stores email if account has one)
+    // Register new user linked to account number (also stores email if account has one)
     public boolean registerUser(String username, String password, String accountNumber) {
-        String sqlInsert = "INSERT INTO users(username, password, accountNumber, email) VALUES (?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO users(username, password, accountNumber, email, locked) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = Database.getConnection()) {
 
             // fetch email from accounts (might be null)
@@ -66,6 +71,7 @@ public class AuthService {
                 pstmt.setString(2, hashedPassword);
                 pstmt.setString(3, accountNumber);
                 pstmt.setString(4, email);
+                pstmt.setInt(5, 0); // not locked
                 pstmt.executeUpdate();
             }
 
@@ -92,7 +98,6 @@ public class AuthService {
             return false;
         }
     }
-
 
     public boolean userExists(String username) {
         String sql = "SELECT username FROM users WHERE username = ?";
@@ -122,5 +127,108 @@ public class AuthService {
             System.out.println("❌ Database error: " + e.getMessage());
         }
         return null;
+    }
+
+    // verify login password (for sensitive actions)
+    public boolean verifyPassword(String username, String password) {
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String storedHash = rs.getString("password");
+                return PasswordUtil.checkPassword(password, storedHash);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error verifying password for {}: {}", username, e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Reset password for accountNumber:
+     * - find the linked username/email
+     * - generate a temporary password
+     * - store hashed password in users table
+     * - unlock both users.locked and accounts.locked
+     * - send the plain temporary password to the user's registered email
+     *
+     * Returns true if reset+email succeeded.
+     */
+    public boolean resetPasswordAndEmail(String accountNumber) {
+        String findUserSql = "SELECT username, email FROM users WHERE accountNumber = ?";
+        String findAccountEmail = "SELECT email FROM accounts WHERE accountNumber = ?";
+        String username = null;
+        String email = null;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(findUserSql)) {
+
+            ps.setString(1, accountNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                username = rs.getString("username");
+                email = rs.getString("email"); // could be null if not set in users
+            } else {
+                // fallback to accounts table for email only
+                try (PreparedStatement ps2 = conn.prepareStatement(findAccountEmail)) {
+                    ps2.setString(1, accountNumber);
+                    ResultSet rs2 = ps2.executeQuery();
+                    if (rs2.next()) {
+                        email = rs2.getString("email");
+                    }
+                }
+            }
+
+            if (username == null && (email == null || email.isEmpty())) {
+                // no user and no email found
+                return false;
+            }
+
+            // generate temporary password (6 chars alphanumeric)
+            String temp = String.valueOf((int)(Math.random() * 900000) + 100000); // 6-digit temp
+            String hashed = PasswordUtil.hashPassword(temp);
+
+            // update users.password if a user exists for accountNumber
+            if (username != null) {
+                String updUser = "UPDATE users SET password=?, locked=0 WHERE accountNumber=?";
+                try (PreparedStatement upd = conn.prepareStatement(updUser)) {
+                    upd.setString(1, hashed);
+                    upd.setString(2, accountNumber);
+                    upd.executeUpdate();
+                }
+            } else {
+                // no user row exists; can't reset login password — inform caller
+                return false;
+            }
+
+            // unlock accounts.locked as well
+            String unlockAcc = "UPDATE accounts SET locked = 0 WHERE accountNumber = ?";
+            try (PreparedStatement u2 = conn.prepareStatement(unlockAcc)) {
+                u2.setString(1, accountNumber);
+                u2.executeUpdate();
+            }
+
+            // send email (plain temp password)
+            if (email != null && !email.isEmpty()) {
+                String subject = "🔐 Banking Simulator — Temporary Password";
+                String body = "Hello,\n\nA temporary password has been generated for your account (" + accountNumber + ").\n\n" +
+                        "Temporary password: " + temp + "\n\n" +
+                        "Please login and immediately change your password.\n\n— Banking Simulator Team";
+                EmailService.sendEmail(email, subject, body);
+                logger.info("Temporary password emailed to {}", email);
+                return true;
+            } else {
+                // email missing for account
+                return false;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error during resetPasswordAndEmail for {}: {}", accountNumber, e.getMessage(), e);
+            return false;
+        }
     }
 }

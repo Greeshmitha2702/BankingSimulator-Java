@@ -14,6 +14,7 @@ public class Bank {
     private static final Scanner sc = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Bank.class);
     private final TransactionService transactionService = new TransactionService();
+    private final AuthService authService = new AuthService();
 
     // -----------------------------
     // Load all accounts from database
@@ -52,14 +53,17 @@ public class Bank {
     public boolean isPositive(double amount) {
         return amount > 0;
     }
-
+    // ✅ Email validation
+    public boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) return false;
+        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+    }
     public boolean isValidPhone(String phone) {
         return phone != null && phone.matches("\\d{10}");
     }
 
     // -----------------------------
     // Create new account
-    // -----------------------------
     // -----------------------------
     public void createAccount(String holderName, String phone, double initialDeposit, String email) {
         if (!isValidName(holderName)) {
@@ -76,7 +80,7 @@ public class Bank {
         }
 
         String accountNumber = "ACC" + System.currentTimeMillis();
-        String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance, email) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance, email, locked, alertThreshold) VALUES(?,?,?,?,?,?,?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -86,12 +90,16 @@ public class Bank {
             pstmt.setString(3, phone);
             pstmt.setDouble(4, initialDeposit);
             pstmt.setString(5, email);
+            pstmt.setInt(6, 0); // not locked
+            pstmt.setDouble(7, 1000.0); // default threshold
+
             pstmt.executeUpdate();
 
-            System.out.println("✅ Account created successfully for " + holderName + "!");
+            System.out.println("\n✅ Account created successfully for " + holderName + "!");
             System.out.println("💳 Your Account Number: " + accountNumber);
             logger.info("New account created: {} ({}) with initial deposit ₹{} and email {}", accountNumber, holderName, initialDeposit, email);
-            // Send a welcome email
+
+            // Send a welcome email (optional)
             try {
                 if (email != null && !email.isEmpty()) {
                     EmailService.sendEmail(
@@ -108,13 +116,11 @@ public class Bank {
                 logger.error("❌ Failed to send welcome email to {}", email, e);
             }
 
-
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
             logger.error("Error creating account for {}", holderName, e);
         }
     }
-
 
     // -----------------------------
     // Deposit money
@@ -158,11 +164,16 @@ public class Bank {
     }
 
     // -----------------------------
-    // Withdraw money
+    // Withdraw money (requires login password confirmation)
     // -----------------------------
-    public void withdraw(String accountNumber, double amount) {
+    public void withdraw(String accountNumber, double amount, String username) {
         if (!isPositive(amount)) {
             System.out.println("❌ Withdrawal amount must be greater than zero.");
+            return;
+        }
+
+        // confirm with login password
+        if (!verifyPasswordPrompt(username, accountNumber)) {
             return;
         }
 
@@ -353,16 +364,12 @@ public class Bank {
             return false;
         }
     }
+
     // -----------------------------
-// Generate Transaction Report
-// -----------------------------
+    // Generate Transaction Report (PDF)
     // -----------------------------
-// Generate Transaction Report (PDF)
-// -----------------------------
     public void generateReport(String accountNumber) {
         try (Connection conn = Database.getConnection()) {
-
-            // Fetch account details directly from DB
             String sql = "SELECT accountNumber, accountHolder, phone, balance FROM accounts WHERE accountNumber = ?";
             Account account = null;
 
@@ -385,7 +392,6 @@ public class Bank {
                 return;
             }
 
-            // Fetch all transactions for this account
             List<String[]> transactions = TransactionDAO.getTransactionsByAccount(accountNumber);
 
             if (transactions.isEmpty()) {
@@ -394,9 +400,8 @@ public class Bank {
                 return;
             }
 
-            // Generate PDF report
             ReportGenerator.generatePDFReport(account, transactions);
-            // Fetch user's email
+
             String emailQuery = "SELECT email FROM accounts WHERE accountNumber = ?";
             String email = null;
             try (PreparedStatement ps = conn.prepareStatement(emailQuery)) {
@@ -420,7 +425,6 @@ public class Bank {
                 System.out.println("⚠️ No email linked to this account. Report saved locally only.");
             }
 
-
         } catch (Exception e) {
             System.out.println("❌ Error generating report: " + e.getMessage());
             logger.error("Error generating report for account {}", accountNumber, e);
@@ -428,8 +432,8 @@ public class Bank {
     }
 
     // -----------------------------
-// 🔔 Low Balance Alert Helper
-// -----------------------------
+    // Low Balance Alert Helper
+    // -----------------------------
     private void checkAndSendLowBalanceAlert(Connection conn, String accountNumber) {
         String sql = "SELECT accountHolder, email, balance, alertThreshold FROM accounts WHERE accountNumber = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -456,9 +460,10 @@ public class Bank {
             logger.error("❌ Failed to send low balance alert for {}", accountNumber, e);
         }
     }
+
     // -----------------------------
-// ⚙️ Set Alert Threshold
-// -----------------------------
+    // Set Alert Threshold
+    // -----------------------------
     public void setAlertThreshold(String accountNumber, double newThreshold) {
         String sql = "UPDATE accounts SET alertThreshold = ? WHERE accountNumber = ?";
         try (Connection conn = Database.getConnection();
@@ -476,114 +481,160 @@ public class Bank {
             logger.error("❌ Failed to update alert threshold for {}", accountNumber, e);
         }
     }
+
     // ----------------------------
-    // PIN VALIDATION
+    // Password confirmation prompt (used for withdraw/update/delete)
     // ----------------------------
-    private boolean verifyPin(Connection conn, String accountNumber) throws SQLException {
-        String query = "SELECT pin, locked FROM accounts WHERE accountNumber = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, accountNumber);
-            ResultSet rs = pstmt.executeQuery();
+    private boolean verifyPasswordPrompt(String username, String accountNumber) {
+        int attempts = 0;
+        while (attempts < 3) {
+            System.out.print("🔑 Enter your login password to confirm: ");
+            String enteredPassword = sc.nextLine();
 
-            if (rs.next()) {
-                String correctPin = rs.getString("pin");
-                boolean locked = rs.getInt("locked") == 1;
+            boolean ok = authService.verifyPassword(username, enteredPassword);
+            if (ok) return true;
 
-                if (locked) {
-                    System.out.println("🔒 Account is locked due to too many wrong attempts!");
-                    logger.warn("Locked account attempted access: {}", accountNumber);
-                    return false;
-                }
+            attempts++;
+            System.out.println("❌ Incorrect password (" + attempts + "/3)");
+        }
 
-                int attempts = 0;
-                while (attempts < 3) {
-                    System.out.print("Enter your 4-digit PIN: ");
-                    String enteredPin = sc.nextLine();
-                    if (enteredPin.equals(correctPin)) {
-                        return true;
-                    } else {
-                        attempts++;
-                        System.out.println("❌ Incorrect PIN (" + attempts + "/3)");
-                    }
-                }
-
-                // Lock account after 3 failed attempts
-                String lockSql = "UPDATE accounts SET locked = 1 WHERE accountNumber = ?";
-                try (PreparedStatement lockStmt = conn.prepareStatement(lockSql)) {
-                    lockStmt.setString(1, accountNumber);
-                    lockStmt.executeUpdate();
-                }
-
-                System.out.println("🔒 Account locked due to 3 incorrect attempts!");
-                logger.warn("Account locked: {}", accountNumber);
-                return false;
+        // lock both user and account after 3 failed attempts
+        try (Connection conn = Database.getConnection()) {
+            try (PreparedStatement ps1 = conn.prepareStatement("UPDATE accounts SET locked = 1 WHERE accountNumber = ?")) {
+                ps1.setString(1, accountNumber);
+                ps1.executeUpdate();
             }
+            try (PreparedStatement ps2 = conn.prepareStatement("UPDATE users SET locked = 1 WHERE accountNumber = ?")) {
+                ps2.setString(1, accountNumber);
+                ps2.executeUpdate();
+            }
+            System.out.println("🔒 Account locked due to 3 incorrect attempts! Use Forgot Password to reset.");
+            logger.warn("Account locked: {}", accountNumber);
+        } catch (SQLException e) {
+            logger.error("Error locking account {}", accountNumber, e);
         }
         return false;
     }
 
     // ----------------------------
-    // UPDATE ACCOUNT DETAILS
+    // Update Account Details (requires login password confirmation)
     // ----------------------------
-    public void updateAccountDetails(String accountNumber) {
-        String sql = "UPDATE accounts SET accountHolder = ?, phone = ?, email = ? WHERE accountNumber = ?";
-
+    public void updateAccountDetails(String accNo, String currentUsername) {
         try (Connection conn = Database.getConnection()) {
-            if (!verifyPin(conn, accountNumber)) return;
 
-            System.out.print("Enter new Name: ");
-            String newName = sc.nextLine();
-            System.out.print("Enter new Phone Number: ");
-            String newPhone = sc.nextLine();
-            System.out.print("Enter new Email: ");
-            String newEmail = sc.nextLine();
+            // Fetch current details
+            String fetchQuery = "SELECT accountHolder, phone, email FROM accounts WHERE accountNumber = ?";
+            String currentName = "", currentPhone = "", currentEmail = "";
 
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, newName);
-                pstmt.setString(2, newPhone);
-                pstmt.setString(3, newEmail);
-                pstmt.setString(4, accountNumber);
-
-                int updated = pstmt.executeUpdate();
-                if (updated > 0) {
-                    System.out.println("✅ Account details updated successfully!");
-                    logger.info("Updated details for {}", accountNumber);
+            try (PreparedStatement ps = conn.prepareStatement(fetchQuery)) {
+                ps.setString(1, accNo);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    currentName = rs.getString("accountHolder");
+                    currentPhone = rs.getString("phone");
+                    currentEmail = rs.getString("email");
                 } else {
-                    System.out.println("❌ Failed to update account.");
+                    System.out.println("❌ No account found for: " + accNo);
+                    return;
                 }
             }
-        } catch (Exception e) {
-            logger.error("Error updating account details", e);
+
+            System.out.println("\n✏️ Update Account Details for: " + accNo);
+            System.out.print("👤 New Name (press Enter to skip): ");
+            String newName = sc.nextLine().trim();
+            if (newName.isEmpty()) newName = currentName;
+
+            System.out.print("📞 New Phone (press Enter to skip): ");
+            String newPhone = sc.nextLine().trim();
+            if (newPhone.isEmpty()) newPhone = currentPhone;
+
+            System.out.print("📧 New Email (press Enter to skip): ");
+            String newEmail = sc.nextLine().trim();
+            if (newEmail.isEmpty()) newEmail = currentEmail;
+
+            // Check if no changes
+            if (newName.equals(currentName) && newPhone.equals(currentPhone) && newEmail.equals(currentEmail)) {
+                System.out.println("⚠️ No changes detected — all values are same as before.");
+                return;
+            }
+
+            // Validations
+            if (!isValidName(newName)) {
+                System.out.println("❌ Invalid name. Only alphabets and spaces are allowed.");
+                return;
+            }
+            if (!isValidPhone(newPhone)) {
+                System.out.println("❌ Invalid phone number. Must be 10 digits.");
+                return;
+            }
+            if (!isValidEmail(newEmail)) {
+                System.out.println("❌ Invalid email format.");
+                return;
+            }
+
+            // Update both tables
+            String updateAccounts = "UPDATE accounts SET accountHolder=?, phone=?, email=? WHERE accountNumber=?";
+            String updateUsers = "UPDATE users SET email=? WHERE accNo=?";
+            //Change in account holder name doesn't need to effect user name
+
+            try (PreparedStatement ps1 = conn.prepareStatement(updateAccounts);
+                 PreparedStatement ps2 = conn.prepareStatement(updateUsers)) {
+
+                ps1.setString(1, newName);
+                ps1.setString(2, newPhone);
+                ps1.setString(3, newEmail);
+                ps1.setString(4, accNo);
+                ps1.executeUpdate();
+
+                ps2.setString(1, newEmail);
+                ps2.setString(2, currentUsername);
+                ps2.executeUpdate();
+
+                System.out.println("✅ Account details updated successfully!");
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
         }
     }
 
+
     // ----------------------------
-    // DELETE ACCOUNT
+    // Delete Account (requires login password confirmation)
     // ----------------------------
-    public void deleteAccount(String accountNumber) {
+    public boolean deleteAccount(String accountNumber, String username) {
         try (Connection conn = Database.getConnection()) {
-            if (!verifyPin(conn, accountNumber)) return;
+            if (!verifyPasswordPrompt(username, accountNumber)) return false;
 
             System.out.print("Are you sure you want to delete this account? Type YES to confirm: ");
             String confirm = sc.nextLine();
             if (!confirm.equalsIgnoreCase("YES")) {
                 System.out.println("❌ Account deletion cancelled.");
-                return;
+                return false;
             }
 
-            // Delete transactions first (optional)
+            // Delete transactions first
             try (PreparedStatement delTx = conn.prepareStatement("DELETE FROM transactions WHERE accountNumber = ?")) {
                 delTx.setString(1, accountNumber);
                 delTx.executeUpdate();
             }
 
+            // Delete from accounts
             try (PreparedStatement delAcc = conn.prepareStatement("DELETE FROM accounts WHERE accountNumber = ?")) {
                 delAcc.setString(1, accountNumber);
                 int deleted = delAcc.executeUpdate();
 
+                // Delete from users table
+                try (PreparedStatement delUser = conn.prepareStatement("DELETE FROM users WHERE accountNumber = ?")) {
+                    delUser.setString(1, accountNumber);
+                    delUser.executeUpdate();
+                }
+
                 if (deleted > 0) {
                     System.out.println("✅ Account deleted successfully.");
                     logger.warn("Account deleted: {}", accountNumber);
+                    return true; // ✅ triggers logout in main program
                 } else {
                     System.out.println("❌ Account not found.");
                 }
@@ -591,38 +642,6 @@ public class Bank {
         } catch (Exception e) {
             logger.error("Error deleting account", e);
         }
-    }
-    // ----------------------------
-    // FORGOT PIN
-    // ----------------------------
-    public void forgotPin(String accountNumber) {
-        String sql = "SELECT email, accountHolder FROM accounts WHERE accountNumber = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, accountNumber);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                String email = rs.getString("email");
-                String name = rs.getString("accountHolder");
-                String newPin = String.format("%04d", (int) (Math.random() * 10000));
-
-                try (PreparedStatement updatePin = conn.prepareStatement("UPDATE accounts SET pin = ?, locked = 0 WHERE accountNumber = ?")) {
-                    updatePin.setString(1, newPin);
-                    updatePin.setString(2, accountNumber);
-                    updatePin.executeUpdate();
-                }
-
-                EmailService.sendEmail(email, "🔑 Your New Banking PIN",
-                        "Hello " + name + ",\n\nYour new 4-digit PIN is: " + newPin +
-                                "\n\nPlease keep it confidential.\n\n- Banking Simulator");
-                System.out.println("📧 New PIN has been sent to your registered email.");
-            } else {
-                System.out.println("❌ Account not found.");
-            }
-        } catch (Exception e) {
-            logger.error("Error in forgotPin", e);
-        }
+        return false;
     }
 }

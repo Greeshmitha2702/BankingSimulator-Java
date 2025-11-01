@@ -162,3 +162,104 @@ org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no suc
 2025-11-01 18:41:55 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹100.0 (Target: null)
 2025-11-01 18:41:55 [INFO] com.bank.service.Bank - Deposit ₹100.0 to account ACC1761982006973. New balance: ₹125.0
 2025-11-01 18:41:58 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1761982006973): ₹125.0
+2025-11-01 20:00:08 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 20:00:08 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 20:00:19 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
+2025-11-01 20:00:36 [INFO] com.bank.service.Bank - Alert threshold updated to ₹50.0 for account ACC1761145533500
+2025-11-01 20:00:44 [INFO] com.bank.service.Bank - Checked balance for greeshmitha (ACC1761145533500): ₹433.0
+2025-11-01 20:00:55 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹400.0 (Target: null)
+2025-11-01 20:00:55 [INFO] com.bank.service.Bank - Withdrawal ₹400.0 from account ACC1761145533500. Remaining: ₹33.0
+2025-11-01 20:01:20 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 20:01:41 [WARN] com.bank.service.Bank - Account locked: ACC1761982006973
+2025-11-01 20:07:08 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 20:07:08 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 20:07:22 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 20:07:31 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹12.0 (Target: null)
+2025-11-01 20:07:31 [INFO] com.bank.service.Bank - Withdrawal ₹12.0 from account ACC1761982006973. Remaining: ₹113.0
+2025-11-01 20:07:35 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 20:07:42 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 20:08:16 [WARN] com.bank.service.Bank - Account locked: ACC1761982006973
+2025-11-01 20:08:26 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 20:08:51 [WARN] com.bank.service.Bank - Account locked: ACC1761982006973
+2025-11-01 20:08:54 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 22:20:39 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 22:20:39 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 22:21:40 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 22:21:55 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 22:22:00 [WARN] com.bank.service.Bank - Locked account attempted access: ACC1761982006973
+2025-11-01 22:22:56 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 23:02:22 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 23:02:22 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 23:02:42 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 23:03:36 [INFO] com.bank.service.Bank - Updated details for ACC1761995589999
+2025-11-01 23:09:55 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 23:09:55 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 23:11:34 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 23:31:57 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 23:31:57 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 23:33:06 [INFO] com.bank.service.AuthService - Temporary password emailed to lbinguma2@gitam.in
+2025-11-01 23:34:05 [WARN] com.bank.service.AuthService - Incorrect password for user: greesh
+2025-11-01 23:34:18 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 23:45:13 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 23:45:13 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 23:45:22 [WARN] com.bank.service.AuthService - Incorrect password for user: greesh
+2025-11-01 23:45:57 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-01 23:47:16 [WARN] com.bank.service.Bank - Account deleted: ACC1761995589999
+2025-11-01 23:48:22 [WARN] com.bank.service.Bank - Deposit failed — account null not found
+2025-11-01 23:49:44 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 23:49:44 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 23:49:54 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-01 23:50:54 [INFO] com.bank.service.Bank - Alert threshold updated to ₹20.0 for account ACC1761982006973
+2025-11-01 23:50:58 [INFO] com.bank.service.Bank - Checked balance for Greeshmitha (ACC1761982006973): ₹113.0
+2025-11-01 23:51:05 [INFO] com.bank.service.Bank - Alert threshold updated to ₹200.0 for account ACC1761982006973
+2025-11-01 23:51:14 [INFO] com.bank.service.Bank - Checked balance for Greeshmitha (ACC1761982006973): ₹113.0
+2025-11-01 23:51:18 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1761982006973 (₹113.0)
+2025-11-02 00:03:28 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:03:28 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:04:15 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-02 00:04:34 [WARN] com.bank.service.Bank - Account deleted: ACC1761982006973
+2025-11-02 00:15:44 [ERROR] com.bank.service.Bank - Error creating account for Bingumalla
+org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.createAccount(Bank.java:96)
+	at com.bank.app.Main.createBankAccount(Main.java:288)
+	at com.bank.app.Main.main(Main.java:83)
+2025-11-02 00:17:06 [INFO] com.bank.service.Bank - New account created: ACC1762022826588 (Bingumalla) with initial deposit ₹100.0 and email lbinguma2@gitam.in
+2025-11-02 00:17:10 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 00:17:43 [INFO] com.bank.service.AuthService - ✅ New user registered: bingumalla linked to ACC1762022826588 (email=lbinguma2@gitam.in)
+2025-11-02 00:18:01 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 00:18:10 [INFO] com.bank.dao.TransactionDAO - Fetched 0 transactions for report (account: ACC1762022826588)
+2025-11-02 00:18:10 [INFO] com.bank.service.Bank - No transactions found for report generation (account: ACC1762022826588)
+2025-11-02 00:18:56 [INFO] com.bank.service.Bank - Checked balance for Bingumalla (ACC1762022826588): ₹100.0
+2025-11-02 00:18:59 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762022826588 (₹100.0)
+2025-11-02 00:19:56 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹50.0 (Target: null)
+2025-11-02 00:19:56 [INFO] com.bank.service.Bank - Withdrawal ₹50.0 from account ACC1762022826588. Remaining: ₹50.0
+2025-11-02 00:20:00 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762022826588 (₹50.0)
+2025-11-02 00:20:05 [INFO] com.bank.service.Bank - Checked balance for Bingumalla (ACC1762022826588): ₹50.0
+2025-11-02 00:20:09 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762022826588 (₹50.0)
+2025-11-02 00:20:17 [INFO] com.bank.dao.TransactionDAO - Fetched 1 transactions for report (account: ACC1762022826588)
+2025-11-02 00:20:18 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1762022826588.pdf
+2025-11-02 00:20:22 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-02 00:20:33 [INFO] com.bank.service.Bank - Alert threshold updated to ₹100.0 for account ACC1762022826588
+2025-11-02 00:24:08 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:24:08 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:24:18 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 00:25:47 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:25:47 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:25:56 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 00:28:15 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:28:15 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:28:26 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 00:38:24 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:38:24 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:38:37 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 00:44:50 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 00:44:50 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 00:45:02 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
