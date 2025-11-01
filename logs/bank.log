@@ -31,3 +31,9 @@
 2025-11-01 12:04:19 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
 2025-11-01 12:04:29 [INFO] com.bank.dao.TransactionDAO - Fetched 13 transactions for report (account: ACC1761145533500)
 2025-11-01 12:04:29 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761145533500.pdf
+2025-11-01 12:55:40 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-01 12:55:40 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 12:55:51 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
+2025-11-01 12:56:47 [INFO] com.bank.service.Bank - New account created: ACC1761982006973 (Lakshmi) with initial deposit ₹100.0 and email lbinguma2@gitam.in
+2025-11-01 12:57:41 [INFO] com.bank.service.AuthService - ✅ New user registered: Lakshmi linked to ACC1761982006973 (email=lbinguma2@gitam.in)
+2025-11-01 12:57:59 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi

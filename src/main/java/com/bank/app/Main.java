@@ -204,6 +204,7 @@ public class Main {
     // ------------------------
     // 🏦 Bank Account Creation
     // ------------------------
+    // ------------------------
     private static void createBankAccount(Scanner sc, Bank bank) {
         System.out.println("\n🏦 Creating a new bank account...");
         String holderName;
@@ -222,6 +223,18 @@ public class Main {
             System.out.println("❌ Invalid phone number. Must be exactly 10 digits.");
         }
 
+        // Email input + validation
+        String email;
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = sc.nextLine().trim();
+            if (email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                break;
+            } else {
+                System.out.println("❌ Invalid email. Please enter a valid email address (contains '@' and domain).");
+            }
+        }
+
         double initDeposit;
         while (true) {
             try {
@@ -234,7 +247,7 @@ public class Main {
             }
         }
 
-        bank.createAccount(holderName, phone, initDeposit);
+        bank.createAccount(holderName, phone, initDeposit, email);
     }
 
     // ------------------------

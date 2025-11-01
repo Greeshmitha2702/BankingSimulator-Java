@@ -60,7 +60,8 @@ public class Bank {
     // -----------------------------
     // Create new account
     // -----------------------------
-    public void createAccount(String holderName, String phone, double initialDeposit) {
+    // -----------------------------
+    public void createAccount(String holderName, String phone, double initialDeposit, String email) {
         if (!isValidName(holderName)) {
             System.out.println("❌ Invalid name. Only alphabets allowed.");
             return;
@@ -75,7 +76,7 @@ public class Bank {
         }
 
         String accountNumber = "ACC" + System.currentTimeMillis();
-        String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO accounts(accountNumber, accountHolder, phone, balance, email) VALUES(?,?,?,?,?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -84,17 +85,19 @@ public class Bank {
             pstmt.setString(2, holderName);
             pstmt.setString(3, phone);
             pstmt.setDouble(4, initialDeposit);
+            pstmt.setString(5, email);
             pstmt.executeUpdate();
 
             System.out.println("✅ Account created successfully for " + holderName + "!");
             System.out.println("💳 Your Account Number: " + accountNumber);
-            logger.info("New account created: {} ({}) with initial deposit ₹{}", accountNumber, holderName, initialDeposit);
+            logger.info("New account created: {} ({}) with initial deposit ₹{} and email {}", accountNumber, holderName, initialDeposit, email);
 
         } catch (SQLException e) {
             System.out.println("❌ Database error: " + e.getMessage());
             logger.error("Error creating account for {}", holderName, e);
         }
     }
+
 
     // -----------------------------
     // Deposit money

@@ -44,31 +44,47 @@ public class AuthService {
     }
 
     // ✅ Register new user linked to account number
+    // ✅ Register new user linked to account number (also stores email if account has one)
     public boolean registerUser(String username, String password, String accountNumber) {
-        String sql = "INSERT INTO users(username, password, accountNumber) VALUES (?, ?, ?)";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        String sqlInsert = "INSERT INTO users(username, password, accountNumber, email) VALUES (?, ?, ?, ?)";
+        try (Connection conn = Database.getConnection()) {
 
-            pstmt.setString(1, username);
-            String hashedPassword = PasswordUtil.hashPassword(password);
-            pstmt.setString(2, hashedPassword);
-            pstmt.setString(3, accountNumber);
-            pstmt.executeUpdate();
+            // fetch email from accounts (might be null)
+            String email = null;
+            String q = "SELECT email FROM accounts WHERE accountNumber = ?";
+            try (PreparedStatement ps = conn.prepareStatement(q)) {
+                ps.setString(1, accountNumber);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    email = rs.getString("email");
+                }
+            }
 
-            logger.info("✅ New user registered: {} linked to {}", username, accountNumber);
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
+                pstmt.setString(1, username);
+                String hashedPassword = PasswordUtil.hashPassword(password);
+                pstmt.setString(2, hashedPassword);
+                pstmt.setString(3, accountNumber);
+                pstmt.setString(4, email);
+                pstmt.executeUpdate();
+            }
+
+            logger.info("✅ New user registered: {} linked to {} (email={})", username, accountNumber, email);
             System.out.println("✅ User registered successfully!");
             return true;
+
         } catch (SQLException e) {
             if (e.getMessage().contains("UNIQUE constraint failed")) {
                 logger.warn("Username already exists: {}", username);
                 System.out.println("❌ Username already exists. Please choose another.");
             } else {
-                logger.error("Database error during registration for {}: {}", username, e.getMessage());
+                logger.error("Database error during registration for {}: {}", username, e.getMessage(), e);
                 System.out.println("❌ Database error during registration: " + e.getMessage());
             }
             return false;
         }
     }
+
 
     public boolean userExists(String username) {
         String sql = "SELECT username FROM users WHERE username = ?";
