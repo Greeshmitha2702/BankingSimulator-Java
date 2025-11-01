@@ -7,3 +7,11 @@
 2025-11-01 10:10:05 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹200.0 (Target: ACC1761145533500)
 2025-11-01 10:10:05 [INFO] com.bank.service.Bank - Transfer ₹200.0 from ACC1761145533500 to ACC1761220447319
 2025-11-01 10:10:12 [INFO] com.bank.service.Bank - Checked balance for greeshmitha (ACC1761145533500): ₹433.0
+2025-11-01 10:50:47 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-01 10:51:08 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greeshmitha
+2025-11-01 10:51:22 [WARN] com.bank.service.Bank - Report generation failed — account asd not found
+2025-11-01 10:51:33 [INFO] com.bank.service.Bank - Checked balance for greeshmitha (ACC1761145533500): ₹433.0
+2025-11-01 10:51:36 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-01 10:51:50 [INFO] com.bank.dao.TransactionDAO - Fetched 13 transactions for report (account: ACC1761145533500)
+2025-11-01 10:51:50 [INFO] com.bank.report.ReportGenerator - CSV report generated successfully for account ACC1761145533500
+2025-11-01 10:51:50 [INFO] com.bank.service.Bank - Report generated for account ACC1761145533500

@@ -5,6 +5,7 @@ import com.bank.model.Account;
 import com.bank.dao.TransactionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.bank.report.ReportGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -329,4 +330,37 @@ public class Bank {
             return false;
         }
     }
+    // -----------------------------
+// Generate Transaction Report
+// -----------------------------
+    public void generateReport(String accountNumber) {
+        System.out.println("📊 Generating report for account: " + accountNumber);
+
+        try (Connection conn = Database.getConnection()) {
+            String accQuery = "SELECT accountHolder, balance FROM accounts WHERE accountNumber = ?";
+            PreparedStatement ps = conn.prepareStatement(accQuery);
+            ps.setString(1, accountNumber);
+            var rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("❌ Account not found!");
+                logger.warn("Report generation failed — account {} not found", accountNumber);
+                return;
+            }
+
+            String holder = rs.getString("accountHolder");
+            double balance = rs.getDouble("balance");
+
+            var transactions = TransactionDAO.getTransactionsByAccount(accountNumber);
+            ReportGenerator.generateCSVReport(accountNumber, holder, balance, transactions);
+
+            System.out.println("✅ Report generated successfully: report_" + accountNumber + ".csv");
+            logger.info("Report generated for account {}", accountNumber);
+
+        } catch (Exception e) {
+            System.out.println("❌ Error generating report: " + e.getMessage());
+            logger.error("Error generating report for account {}", accountNumber, e);
+        }
+    }
+
 }

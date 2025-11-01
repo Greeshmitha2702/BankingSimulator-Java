@@ -106,6 +106,7 @@ public class Main {
                 System.out.println("5️⃣ View Transaction History");
                 System.out.println("6️⃣ Transfer Money");
                 System.out.println("7️⃣ Logout");
+                System.out.println("8️⃣ Generate Account Report");
                 System.out.print("Enter your choice: ");
 
                 int choice = sc.nextInt();
@@ -182,6 +183,11 @@ public class Main {
                     case 7 -> {
                         System.out.println("👋 Logged out successfully. Goodbye " + username + "!");
                         return;
+                    }
+                    case 8 -> {
+                        System.out.print("💳 Enter Account Number: ");
+                        String acc = sc.nextLine();
+                        bank.generateReport(acc);
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.*;
 
 public class TransactionDAO {
 
@@ -50,4 +51,30 @@ public class TransactionDAO {
             logger.error("Failed to record transaction for account {}", accountNumber, e);
         }
     }
+    public static List<String[]> getTransactionsByAccount(String accountNumber) {
+        List<String[]> transactions = new ArrayList<>();
+        String sql = "SELECT timestamp, type, amount, targetAccount FROM transactions WHERE accountNumber = ? ORDER BY timestamp DESC";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, accountNumber);
+            var rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String time = rs.getString("timestamp");
+                String type = rs.getString("type");
+                double amount = rs.getDouble("amount");
+                String target = rs.getString("targetAccount");
+                transactions.add(new String[]{time, type, String.valueOf(amount), target});
+            }
+
+            logger.info("Fetched {} transactions for report (account: {})", transactions.size(), accountNumber);
+        } catch (SQLException e) {
+            System.out.println("⚠️ Error fetching transactions: " + e.getMessage());
+            logger.error("Error fetching transactions for account {}", accountNumber, e);
+        }
+
+        return transactions;
+    }
+
 }
