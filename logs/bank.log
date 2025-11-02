@@ -610,3 +610,63 @@ org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint fa
 2025-11-02 20:07:26 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
 2025-11-02 20:07:57 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762094241942
 2025-11-02 20:08:05 [ERROR] com.bank.service.AuthService - Database error during login for user greesh: [SQLITE_ERROR] SQL error or missing database (no such column: failed_attempts)
+2025-11-02 20:08:42 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 20:08:42 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 20:09:03 [INFO] com.bank.service.Bank - New account created: ACC1762094343175 (greesh) with initial deposit ₹80.0 and email lbinguma2@gitam.in
+2025-11-02 20:09:07 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 20:09:21 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762094343175
+2025-11-02 20:09:27 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 20:09:39 [INFO] com.bank.service.Bank - ✅ Deleted bank account (and linked user via CASCADE): ACC1762094343175
+2025-11-02 20:43:55 [INFO] com.bank.service.Bank - New account created: ACC1762096435139 (greesh) with initial deposit ₹1000.0 and email lbinguma2@gitam.in
+2025-11-02 20:43:58 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 20:44:17 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762096435139
+2025-11-02 20:44:36 [INFO] com.bank.service.Bank - New account created: ACC1762096476591 (harshitha) with initial deposit ₹2000.0 and email hkankana2@gitam.in
+2025-11-02 20:44:40 [INFO] com.bank.service.Bank - 📨 Welcome email sent to hkankana2@gitam.in
+2025-11-02 20:44:54 [INFO] com.bank.service.AuthService - New user registered successfully: harshi linked to account ACC1762096476591
+2025-11-02 20:45:02 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 20:45:18 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-02 20:45:24 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹100.0 (Target: null)
+2025-11-02 20:45:24 [INFO] com.bank.service.Bank - Deposit ₹100.0 to account ACC1762096435139. New balance: ₹1100.0
+2025-11-02 20:45:34 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹200.0 (Target: null)
+2025-11-02 20:45:34 [INFO] com.bank.service.Bank - Withdrawal ₹200.0 from account ACC1762096435139. Remaining: ₹900.0
+2025-11-02 20:45:38 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762096435139 (₹900.0)
+2025-11-02 20:45:42 [INFO] com.bank.service.Bank - Checked balance for greesh (ACC1762096435139): ₹900.0
+2025-11-02 20:45:46 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762096435139 (₹900.0)
+2025-11-02 20:46:13 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-02 20:46:22 [INFO] com.bank.service.Bank - Alert threshold updated to ₹100.0 for account ACC1762096435139
+2025-11-02 20:46:33 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-02 20:46:47 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹500.0 (Target: ACC1762096476591)
+2025-11-02 20:46:47 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹500.0 (Target: ACC1762096435139)
+2025-11-02 20:46:47 [INFO] com.bank.service.Bank - Transfer ₹500.0 from ACC1762096435139 to ACC1762096476591
+2025-11-02 20:47:09 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1762096435139
+2025-11-02 20:47:17 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1762096435139
+2025-11-02 20:47:17 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1762096435139
+2025-11-02 20:48:02 [WARN] com.bank.service.Bank - Account deleted: ACC1762096435139
+2025-11-02 20:52:24 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: harshi
+2025-11-02 20:52:24 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762096476591
+2025-11-02 21:45:02 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 21:45:02 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 21:45:17 [ERROR] com.bank.service.AuthService - Database error during login for user harshi: [SQLITE_BUSY] The database file is locked (database is locked)
+2025-11-02 21:45:40 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user harshi
+2025-11-02 21:45:56 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 2 for user harshi
+2025-11-02 21:46:07 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: harshi
+2025-11-02 21:46:07 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762096476591
+2025-11-02 21:51:17 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 21:51:17 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 21:51:24 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user harshi
+2025-11-02 21:51:36 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: harshi
+2025-11-02 21:51:36 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762096476591
+2025-11-02 21:52:16 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 21:52:16 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 21:52:36 [INFO] com.bank.service.Bank - New account created: ACC1762100556792 (greesh) with initial deposit ₹1000.0 and email lbinguma2@gitam.in
+2025-11-02 21:52:41 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 21:52:59 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762100556792
+2025-11-02 21:53:37 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 21:53:50 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: greesh
+2025-11-02 21:53:50 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762100556792
+2025-11-02 21:57:20 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 21:57:20 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 21:57:48 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: greesh
+2025-11-02 21:57:53 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to lbinguma2@gitam.in
+2025-11-02 21:58:21 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 21:58:39 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh

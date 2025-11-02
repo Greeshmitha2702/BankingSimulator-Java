@@ -184,6 +184,8 @@ public class AuthService {
      * Returns true if reset+email succeeded.
      */
     public boolean resetPasswordAndEmail(String accountNumber) {
+        // ✅ ensure user's email is updated before fetching
+        copyEmailFromAccount(accountNumber);
         String selectSql = "SELECT username, email FROM users WHERE accountNumber = ?";
         String updateSql = "UPDATE users SET password=?, failed_attempts=0, locked=0 WHERE accountNumber=?";
 
@@ -262,4 +264,29 @@ public class AuthService {
             return true; // safer to block registration on error
         }
     }
+    public static void copyEmailFromAccount(String accountNumber) {
+        String sql = """
+        UPDATE users
+        SET email = (
+            SELECT email FROM accounts WHERE accounts.accountNumber = users.accountNumber
+        )
+        WHERE users.accountNumber = ?;
+    """;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, accountNumber);
+            int rows = stmt.executeUpdate();
+
+            if (rows > 0)
+                System.out.println("📩 Email copied from accounts to users for account: " + accountNumber);
+            else
+                System.out.println("⚠️ No matching user found to copy email for account: " + accountNumber);
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error copying email from accounts to users: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }
