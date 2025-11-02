@@ -263,3 +263,350 @@ org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database 
 2025-11-02 00:44:50 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
 2025-11-02 00:44:50 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
 2025-11-02 00:45:02 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 09:51:16 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 09:51:16 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 09:51:43 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 09:51:51 [INFO] com.bank.dao.TransactionDAO - Fetched 1 transactions for report (account: ACC1762022826588)
+2025-11-02 09:51:52 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1762022826588.pdf
+2025-11-02 09:51:56 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-02 09:52:11 [INFO] com.bank.service.Bank - Alert threshold updated to ₹10.0 for account ACC1762022826588
+2025-11-02 09:54:56 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 09:54:56 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 09:55:04 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 09:58:10 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 09:58:10 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 09:59:32 [INFO] com.bank.service.AuthService - ✅ Login successful for user: bingumalla
+2025-11-02 09:59:45 [WARN] com.bank.service.Bank - Account deleted: ACC1762022826588
+2025-11-02 10:02:19 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 10:02:19 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 10:11:27 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 10:11:27 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 10:12:14 [INFO] com.bank.service.AuthService - ✅ New user registered: lakshmi linked to ACC1761995205860 (email=greeshmitha2702@gmail.com)
+2025-11-02 10:12:27 [INFO] com.bank.service.AuthService - ✅ Login successful for user: lakshmi
+2025-11-02 10:12:31 [INFO] com.bank.service.Bank - 
+✏️ Updating Account Details for: ACC1761995205860
+2025-11-02 10:12:47 [INFO] com.bank.service.Bank - ✅ Account details updated successfully for account: ACC1761995205860
+2025-11-02 10:14:32 [INFO] com.bank.service.Bank - 
+✏️ Updating Account Details for: ACC1761995205860
+2025-11-02 10:14:40 [INFO] com.bank.service.Bank - ⚠️ No changes detected — all values are same as before.
+2025-11-02 10:28:25 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 10:28:25 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 10:28:41 [INFO] com.bank.service.AuthService - ✅ Login successful for user: lakshmi
+2025-11-02 10:28:44 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761995205860
+2025-11-02 10:28:57 [ERROR] com.bank.service.Bank - ❌ Database error while updating account details for ACC1761995205860: [SQLITE_BUSY] The database file is locked (database is locked)
+2025-11-02 10:29:27 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761995205860
+2025-11-02 10:29:34 [WARN] com.bank.service.Bank - ❌ Invalid email format entered for account: ACC1761995205860
+2025-11-02 10:29:39 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761995205860
+2025-11-02 10:29:50 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1761995205860
+2025-11-02 10:29:50 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1761995205860
+2025-11-02 11:05:27 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:05:27 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:05:40 [ERROR] com.bank.service.AuthService - Database error during login for user lakshmi: [SQLITE_ERROR] SQL error or missing database (no such column: failedAttempts)
+2025-11-02 11:06:36 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:06:36 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:06:44 [ERROR] com.bank.service.AuthService - Database error during login for user lakshmi: [SQLITE_ERROR] SQL error or missing database (no such column: failedAttempts)
+2025-11-02 11:09:36 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:09:36 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:09:43 [ERROR] com.bank.service.AuthService - Database error during login for user lakshmi: [SQLITE_ERROR] SQL error or missing database (no such column: failedAttempts)
+2025-11-02 11:12:17 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:12:17 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:12:25 [ERROR] com.bank.service.AuthService - Database error during login for user lakshmi: [SQLITE_ERROR] SQL error or missing database (no such column: failedAttempts)
+2025-11-02 11:16:05 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:16:05 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:16:11 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user lakshmi
+2025-11-02 11:16:23 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 2 for user lakshmi
+2025-11-02 11:16:36 [WARN] com.bank.service.AuthService - 🔒 Account locked after 3 failed attempts: lakshmi
+2025-11-02 11:16:53 [WARN] com.bank.service.AuthService - 🔒 Locked user lakshmi attempted to log in.
+2025-11-02 11:17:11 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: lakshmi
+2025-11-02 11:17:16 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to grees@678.com
+2025-11-02 11:23:37 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:23:37 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:24:30 [INFO] com.bank.service.AuthService - ✅ New user registered: greesh linked to ACC1761995205860 (email=grees@678.com)
+2025-11-02 11:24:54 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-02 11:25:14 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761995205860
+2025-11-02 11:25:21 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1761995205860
+2025-11-02 11:25:21 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1761995205860
+2025-11-02 11:25:33 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 11:25:55 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: lakshmi
+2025-11-02 11:26:00 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to lbinguma2@gitam.in
+2025-11-02 11:26:21 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-02 11:50:54 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:50:54 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:51:11 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greesh
+2025-11-02 11:51:33 [WARN] com.bank.service.AuthService - Duplicate registration attempt: username=greesh or accountNumber=ACC1761995205860
+2025-11-02 11:55:20 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:55:20 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:55:56 [WARN] com.bank.service.AuthService - Duplicate registration attempt: username=greesh or accountNumber=ACC1761145533500
+2025-11-02 11:58:29 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 11:58:29 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 11:58:37 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 2 for user greesh
+2025-11-02 11:58:59 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: lakshmi
+2025-11-02 11:59:04 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to lbinguma2@gitam.in
+2025-11-02 11:59:27 [INFO] com.bank.service.AuthService - ✅ Login successful for user: greesh
+2025-11-02 11:59:59 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹123.0 (Target: null)
+2025-11-02 11:59:59 [INFO] com.bank.service.Bank - Withdrawal ₹123.0 from account ACC1761995205860. Remaining: ₹77.0
+2025-11-02 12:00:04 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1761995205860 (₹77.0)
+2025-11-02 12:03:01 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 12:03:01 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 12:03:55 [INFO] com.bank.service.AuthService - New user registered successfully: Greesh linked to account ACC1761998127955
+2025-11-02 12:04:08 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greesh
+2025-11-02 12:04:47 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹10.0 (Target: null)
+2025-11-02 12:04:47 [INFO] com.bank.service.Bank - Deposit ₹10.0 to account ACC1761998127955. New balance: ₹610.0
+2025-11-02 12:04:56 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹12.0 (Target: null)
+2025-11-02 12:04:56 [INFO] com.bank.service.Bank - Withdrawal ₹12.0 from account ACC1761998127955. Remaining: ₹598.0
+2025-11-02 12:05:01 [INFO] com.bank.service.Bank - Checked balance for Bingumalla Greeshmitha (ACC1761998127955): ₹598.0
+2025-11-02 12:05:06 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-02 12:05:47 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹500.0 (Target: ACC1761995205860)
+2025-11-02 12:05:47 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹500.0 (Target: ACC1761998127955)
+2025-11-02 12:05:47 [INFO] com.bank.service.Bank - Transfer ₹500.0 from ACC1761998127955 to ACC1761995205860
+2025-11-02 12:05:52 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to greeshmitha2702@gmail.com for account ACC1761998127955 (₹98.0)
+2025-11-02 12:05:57 [INFO] com.bank.dao.TransactionDAO - Fetched 4 transactions for report (account: ACC1761998127955)
+2025-11-02 12:05:57 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1761998127955.pdf
+2025-11-02 12:06:02 [INFO] com.bank.service.Bank - 📧 Report emailed to greeshmitha2702@gmail.com
+2025-11-02 12:06:08 [INFO] com.bank.service.Bank - Alert threshold updated to ₹50.0 for account ACC1761998127955
+2025-11-02 12:06:12 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761998127955
+2025-11-02 12:06:30 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1761998127955
+2025-11-02 12:06:30 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1761998127955
+2025-11-02 12:06:56 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1761998127955
+2025-11-02 12:07:05 [WARN] com.bank.service.Bank - ⚠️ No changes detected for account: ACC1761998127955
+2025-11-02 12:45:25 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 12:45:25 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 12:46:53 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1761145533500: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 12:58:47 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 12:58:47 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 12:59:07 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1761995205860: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 13:05:33 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:05:33 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:05:43 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1761995205860: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 13:23:58 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:23:58 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:24:43 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:24:43 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:25:27 [ERROR] com.bank.service.Bank - Error creating account for Greeshmitha
+org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.createAccount(Bank.java:96)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 13:26:19 [INFO] com.bank.service.Bank - New account created: ACC1762070179440 (Greeshmitha) with initial deposit ₹100.0 and email lbinguma2@gitam.in
+2025-11-02 13:26:24 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 13:27:25 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1761145533500: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 13:33:03 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:33:03 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:33:21 [INFO] com.bank.service.Bank - New account created: ACC1762070601724 (Greesh) with initial deposit ₹90.0 and email lbinguma2@gitam.in
+2025-11-02 13:33:26 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 13:34:07 [INFO] com.bank.service.AuthService - New user registered successfully: Greeshu linked to account ACC1762070601724
+2025-11-02 13:34:17 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greeshu
+2025-11-02 13:34:25 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1762070601724
+2025-11-02 13:34:44 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1762070601724
+2025-11-02 13:34:44 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1762070601724
+2025-11-02 13:35:02 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762070601724: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 13:39:15 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:39:15 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:39:27 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 13:39:27 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 13:39:48 [INFO] com.bank.service.Bank - New account created: ACC1762070988030 (laks) with initial deposit ₹900.0 and email lbinguma2@gitam.in
+2025-11-02 13:39:52 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 13:40:13 [INFO] com.bank.service.AuthService - New user registered successfully: laksh linked to account ACC1762070988030
+2025-11-02 13:40:19 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762070988030: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 13:40:33 [INFO] com.bank.service.AuthService - ✅ Login successful for user: laksh
+2025-11-02 13:40:45 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762070988030: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 16:01:33 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 16:01:33 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 16:02:08 [INFO] com.bank.service.Bank - New account created: ACC1762079528295 (g) with initial deposit ₹10.0 and email g@g.in
+2025-11-02 16:02:13 [INFO] com.bank.service.Bank - 📨 Welcome email sent to g@g.in
+2025-11-02 16:02:39 [INFO] com.bank.service.AuthService - New user registered successfully: g linked to account ACC1762079528295
+2025-11-02 16:02:58 [INFO] com.bank.service.AuthService - ✅ Login successful for user: g
+2025-11-02 16:03:19 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762079528295: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-02 16:06:15 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 16:06:15 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 16:06:48 [INFO] com.bank.service.Bank - New account created: ACC1762079808655 (r) with initial deposit ₹20.0 and email r@g.in
+2025-11-02 16:06:53 [INFO] com.bank.service.Bank - 📨 Welcome email sent to r@g.in
+2025-11-02 16:07:33 [INFO] com.bank.service.AuthService - New user registered successfully: r linked to account ACC1762079808655
+2025-11-02 16:07:44 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762079808655: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.deleteBankAccount(Bank.java:672)
+	at com.bank.app.Main.main(Main.java:123)
+2025-11-02 16:14:21 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 16:14:21 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 16:14:37 [ERROR] com.bank.service.Bank - ❌ Database error while deleting account ACC1762079808655: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.deleteBankAccount(Bank.java:672)
+	at com.bank.app.Main.main(Main.java:123)
+2025-11-02 16:22:37 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 16:22:37 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 16:27:23 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 16:27:23 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 16:27:38 [WARN] com.bank.service.Bank - ⚠️ Attempted to delete non-existing account: ACC1762079808655
+2025-11-02 16:28:24 [ERROR] com.bank.service.Bank - Error creating account for Greeshmitha
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table accounts has no column named locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.createAccount(Bank.java:86)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 16:29:18 [ERROR] com.bank.service.Bank - Error creating account for Greeshmitha
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table accounts has no column named locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.createAccount(Bank.java:86)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 18:03:03 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:03:03 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:07:20 [ERROR] com.bank.service.Bank - Error creating account for greesh
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table accounts has no column named alertThreshold)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.createAccount(Bank.java:86)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 18:12:47 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:12:47 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:13:09 [INFO] com.bank.service.Bank - New account created: ACC1762087389724 (greeshmitha) with initial deposit ₹100.0 and email lbinguma2@gitam.in
+2025-11-02 18:13:14 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 18:13:27 [INFO] com.bank.service.Bank - ✅ Deleted bank account (and linked user via CASCADE): ACC1762087389724
+2025-11-02 18:13:59 [INFO] com.bank.service.Bank - New account created: ACC1762087439032 (greesh) with initial deposit ₹200.0 and email lbinguma2@gitam.in
+2025-11-02 18:14:03 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 18:14:21 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762087439032
+2025-11-02 18:14:31 [INFO] com.bank.service.Bank - ✅ Deleted bank account (and linked user via CASCADE): ACC1762087439032
+2025-11-02 18:17:05 [INFO] com.bank.service.Bank - New account created: ACC1762087625626 (Greeshmitha) with initial deposit ₹200.0 and email lbinguma2@gitam.in
+2025-11-02 18:17:09 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 18:17:49 [INFO] com.bank.service.AuthService - New user registered successfully: greeshmitha linked to account ACC1762087625626
+2025-11-02 18:18:17 [INFO] com.bank.service.Bank - New account created: ACC1762087697584 (Harshitha) with initial deposit ₹300.0 and email hkankana2@gitam.in
+2025-11-02 18:18:22 [INFO] com.bank.service.Bank - 📨 Welcome email sent to hkankana2@gitam.in
+2025-11-02 18:18:51 [INFO] com.bank.service.AuthService - New user registered successfully: harshitha linked to account ACC1762087697584
+2025-11-02 18:19:13 [INFO] com.bank.service.Bank - New account created: ACC1762087753873 (Afreen) with initial deposit ₹700.0 and email adudekul2@gitam.in
+2025-11-02 18:19:18 [INFO] com.bank.service.Bank - 📨 Welcome email sent to adudekul2@gitam.in
+2025-11-02 18:19:36 [INFO] com.bank.service.AuthService - New user registered successfully: afreen linked to account ACC1762087753873
+2025-11-02 18:19:57 [INFO] com.bank.service.Bank - New account created: ACC1762087797855 (Sreya) with initial deposit ₹900.0 and email sgali3@gitam.in
+2025-11-02 18:20:02 [INFO] com.bank.service.Bank - 📨 Welcome email sent to sgali3@gitam.in
+2025-11-02 18:20:19 [INFO] com.bank.service.AuthService - New user registered successfully: sreya linked to account ACC1762087797855
+2025-11-02 18:24:41 [ERROR] com.bank.service.AuthService - Database error during login for user sreya: [SQLITE_ERROR] SQL error or missing database (no such column: failed_attempts)
+2025-11-02 18:27:17 [ERROR] com.bank.service.AuthService - Database error during login for user sreya: [SQLITE_ERROR] SQL error or missing database (no such column: failed_attempts)
+2025-11-02 18:27:23 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:27:23 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:27:27 [ERROR] com.bank.service.AuthService - Database error during login for user sreya: [SQLITE_ERROR] SQL error or missing database (no such column: failed_attempts)
+2025-11-02 18:29:45 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:29:45 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:34:45 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:34:45 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:35:07 [INFO] com.bank.service.Bank - New account created: ACC1762088707746 (Greeshmitha) with initial deposit ₹900.0 and email lbinguma2@gitam.in
+2025-11-02 18:35:12 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 18:35:34 [INFO] com.bank.service.AuthService - New user registered successfully: greeshmitha linked to account ACC1762088707746
+2025-11-02 18:35:40 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greeshmitha
+2025-11-02 18:35:52 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: greeshmitha
+2025-11-02 18:35:52 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762088707746
+2025-11-02 18:37:00 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user greeshmitha
+2025-11-02 18:37:21 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: greeshmitha
+2025-11-02 18:37:21 [WARN] com.bank.service.AuthService - ⚠️ No email associated with account: ACC1762088707746
+2025-11-02 18:43:46 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:43:46 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:44:09 [ERROR] com.bank.service.Bank - Error creating account for Greesh
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table accounts has no column named email)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.createAccount(Bank.java:86)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 18:45:43 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 18:45:43 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 18:45:58 [ERROR] com.bank.service.Bank - Error creating account for greesh
+org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint failed (NOT NULL constraint failed: accounts.user_id)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.createAccount(Bank.java:96)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 19:05:56 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 19:05:56 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 19:59:18 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 19:59:18 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 19:59:47 [ERROR] com.bank.service.Bank - Error creating account for greesh
+org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint failed (NOT NULL constraint failed: accounts.user_id)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.execute(DB.java:985)
+	at org.sqlite.core.DB.executeUpdate(DB.java:1054)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.lambda$executeLargeUpdate$2(JDBC3PreparedStatement.java:129)
+	at org.sqlite.jdbc3.JDBC3Statement.withConnectionTimeout(JDBC3Statement.java:454)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeLargeUpdate(JDBC3PreparedStatement.java:124)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.executeUpdate(JDBC3PreparedStatement.java:105)
+	at com.bank.service.Bank.createAccount(Bank.java:96)
+	at com.bank.app.Main.createBankAccount(Main.java:321)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-02 20:07:02 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 20:07:02 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 20:07:21 [INFO] com.bank.service.Bank - New account created: ACC1762094241942 (ugfrbiu) with initial deposit ₹500.0 and email lbinguma2@gitam.in
+2025-11-02 20:07:26 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 20:07:57 [INFO] com.bank.service.AuthService - New user registered successfully: greesh linked to account ACC1762094241942
+2025-11-02 20:08:05 [ERROR] com.bank.service.AuthService - Database error during login for user greesh: [SQLITE_ERROR] SQL error or missing database (no such column: failed_attempts)

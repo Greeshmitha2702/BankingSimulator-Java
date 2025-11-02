@@ -21,7 +21,7 @@ public class TransactionDAO {
                 amount REAL NOT NULL,
                 targetAccount TEXT,
                 timestamp DATETIME DEFAULT (datetime('now','localtime')),
-                FOREIGN KEY (accountNumber) REFERENCES accounts(accountNumber)
+                FOREIGN KEY (accountNumber) REFERENCES accounts(accountNumber) ON DELETE CASCADE
             );
         """;
 

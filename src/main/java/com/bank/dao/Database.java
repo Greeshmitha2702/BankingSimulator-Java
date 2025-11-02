@@ -12,13 +12,12 @@ public class Database {
     private static final String DB_URL = "jdbc:sqlite:src/main/resources/db/bank.db?busy_timeout=5000";
     private static final Logger logger = LoggerFactory.getLogger(Database.class);
 
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(DB_URL);
-        } catch (SQLException e) {
-            System.out.println("❌ Database connection failed: " + e.getMessage());
-            return null;
+    public static Connection getConnection() throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL);
+        try (Statement stmt = conn.createStatement()) {
+            stmt.execute("PRAGMA foreign_keys = ON;");
         }
+        return conn;
     }
 
     public static void createTableIfNotExists() {

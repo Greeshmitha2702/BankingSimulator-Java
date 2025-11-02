@@ -31,6 +31,7 @@ public class Main {
             System.out.println("3️⃣ Create Bank Account");
             System.out.println("4️⃣ Exit");
             System.out.println("5️⃣ Forgot Password");
+            System.out.println("6️⃣ Delete Bank Account");
             System.out.print("Enter your choice: ");
             String choice = sc.nextLine();
 
@@ -57,25 +58,36 @@ public class Main {
                     System.out.print("👤 Choose a username: ");
                     username = sc.nextLine();
 
-                    System.out.print("🏦 Enter your Account Number to link: ");
-                    String accountNumber = sc.nextLine();
-
-                    if (!bank.accountExists(accountNumber)) {
-                        System.out.println("❌ Invalid Account Number. Please create a bank account first.");
+                    // ✅ Check username immediately
+                    if (auth.isUsernameTaken(username)) {
+                        System.out.println("❌ Username already exists. Please try a different one.");
                         break;
                     }
 
-                    String password = readPassword("🔑 Enter password: ");
-                    String confirmPassword = readPassword("🔑 Confirm password: ");
+                    System.out.print("🏦 Enter your Account Number to link: ");
+                    String accNo = sc.nextLine();
+
+                    // ✅ Check account number immediately
+                    if (auth.isAccountLinked(accNo)) {
+                        System.out.println("❌ This Account Number is already linked to another user.");
+                        break;
+                    }
+
+                    System.out.print("🔑 Enter password: ");
+                    String password = sc.nextLine();
+                    System.out.print("🔑 Confirm password: ");
+                    String confirmPassword = sc.nextLine();
 
                     if (!password.equals(confirmPassword)) {
-                        System.out.println("❌ Passwords do not match. Try again!");
+                        System.out.println("❌ Passwords do not match!");
                         break;
                     }
 
-                    boolean registered = auth.registerUser(username, password, accountNumber);
-                    if (registered) {
-                        System.out.println("✅ Registration successful! You can now log in.");
+                    boolean success = auth.registerUser(username, password, accNo);
+                    if (success) {
+                        System.out.println("✅ Registration successful!");
+                    } else {
+                        System.out.println("❌ Registration failed. Please try again.");
                     }
                 }
 
@@ -100,6 +112,27 @@ public class Main {
                         System.out.println("❌ Could not reset password. Make sure the account number is correct and has a registered email.");
                     }
                 }
+                case "6" -> {
+                    System.out.print("🏦 Enter your Account Number to delete: ");
+                    String accNo = sc.nextLine().trim();
+
+                    System.out.print("⚠️ Are you sure you want to permanently delete this account? Type 'YES' to confirm: ");
+                    String confirm = sc.nextLine().trim();
+
+                    if (confirm.equalsIgnoreCase("YES")) {
+                        boolean deleted = bank.deleteBankAccount(accNo);
+
+                        if (deleted) {
+                            System.out.println("✅ Bank account and linked user deleted successfully.");
+                            System.out.println("🔒 You have been logged out automatically.");
+                        } else {
+                            System.out.println("❌ Could not find the specified account. Please check and try again.");
+                        }
+                    } else {
+                        System.out.println("❌ Deletion cancelled.");
+                    }
+                }
+
 
                 default -> System.out.println("❌ Invalid choice. Please try again.");
             }

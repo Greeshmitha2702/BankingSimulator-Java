@@ -534,12 +534,13 @@ public class Bank {
                     currentPhone = rs.getString("phone");
                     currentEmail = rs.getString("email");
                 } else {
-                    System.out.println("❌ No account found for: " + accNo);
+                    logger.error("❌ No account found for account number: {}", accNo);
                     return;
                 }
             }
 
-            System.out.println("\n✏️ Update Account Details for: " + accNo);
+            logger.info("✏️ Updating details for account: {}", accNo);
+
             System.out.print("👤 New Name (press Enter to skip): ");
             String newName = sc.nextLine().trim();
             if (newName.isEmpty()) newName = currentName;
@@ -554,28 +555,39 @@ public class Bank {
 
             // Check if no changes
             if (newName.equals(currentName) && newPhone.equals(currentPhone) && newEmail.equals(currentEmail)) {
+                logger.warn("⚠️ No changes detected for account: {}", accNo);
                 System.out.println("⚠️ No changes detected — all values are same as before.");
                 return;
             }
 
             // Validations
             if (!isValidName(newName)) {
+                logger.warn("❌ Invalid name format entered for account: {}", accNo);
                 System.out.println("❌ Invalid name. Only alphabets and spaces are allowed.");
                 return;
             }
             if (!isValidPhone(newPhone)) {
+                logger.warn("❌ Invalid phone format entered for account: {}", accNo);
                 System.out.println("❌ Invalid phone number. Must be 10 digits.");
                 return;
             }
             if (!isValidEmail(newEmail)) {
+                logger.warn("❌ Invalid email format entered for account: {}", accNo);
                 System.out.println("❌ Invalid email format.");
                 return;
             }
 
+            // Ensure users table is linked correctly
+            String linkCheck = "UPDATE users SET accountNumber=? WHERE username=? AND (accountNumber IS NULL OR accountNumber='')";
+            try (PreparedStatement linkStmt = conn.prepareStatement(linkCheck)) {
+                linkStmt.setString(1, accNo);
+                linkStmt.setString(2, currentUsername);
+                linkStmt.executeUpdate();
+            }
+
             // Update both tables
             String updateAccounts = "UPDATE accounts SET accountHolder=?, phone=?, email=? WHERE accountNumber=?";
-            String updateUsers = "UPDATE users SET email=? WHERE accNo=?";
-            //Change in account holder name doesn't need to effect user name
+            String updateUsers = "UPDATE users SET email=? WHERE accountNumber=?";
 
             try (PreparedStatement ps1 = conn.prepareStatement(updateAccounts);
                  PreparedStatement ps2 = conn.prepareStatement(updateUsers)) {
@@ -587,18 +599,24 @@ public class Bank {
                 ps1.executeUpdate();
 
                 ps2.setString(1, newEmail);
-                ps2.setString(2, currentUsername);
-                ps2.executeUpdate();
+                ps2.setString(2, accNo);
+                int userUpdated = ps2.executeUpdate();
 
+                if (userUpdated > 0) {
+                    logger.info("✅ Email also updated in users table for account: {}", accNo);
+                } else {
+                    logger.warn("⚠️ No user record found linked with accountNumber {}. Check your DB data.", accNo);
+                }
+
+                logger.info("✅ Account details successfully updated for account: {}", accNo);
                 System.out.println("✅ Account details updated successfully!");
-
             }
 
         } catch (SQLException e) {
+            logger.error("❌ Database error while updating account details for {}: {}", accNo, e.getMessage());
             System.out.println("❌ Database error: " + e.getMessage());
         }
     }
-
 
     // ----------------------------
     // Delete Account (requires login password confirmation)
@@ -644,4 +662,32 @@ public class Bank {
         }
         return false;
     }
+    public boolean deleteBankAccount(String accNo) {
+        String query = "DELETE FROM accounts WHERE accountNumber = ?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, accNo);
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                logger.info("✅ Deleted bank account (and linked user via CASCADE): {}", accNo);
+                System.out.println("✅ Bank account deleted successfully (linked user removed too).");
+                return true;
+            } else {
+                logger.warn("⚠️ Attempted to delete non-existing account: {}", accNo);
+                System.out.println("❌ Account not found.");
+                return false;
+            }
+
+        } catch (SQLException e) {
+            logger.error("❌ Database error while deleting account {}: {}", accNo, e.getMessage());
+            e.printStackTrace();
+            System.out.println("❌ Database error while deleting account: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 }
