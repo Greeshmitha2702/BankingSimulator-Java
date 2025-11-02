@@ -30,6 +30,8 @@ public class Main {
             System.out.println("2️⃣ Register (New User)");
             System.out.println("3️⃣ Create Bank Account");
             System.out.println("4️⃣ Exit");
+            System.out.println("5️⃣ Forgot Password");
+            System.out.println("6️⃣ Delete Bank Account");
             System.out.print("Enter your choice: ");
             String choice = sc.nextLine();
 
@@ -48,7 +50,7 @@ public class Main {
 
                     if (isLoggedIn) {
                         // ✅ Banking menu after login
-                        bankingMenu(sc, bank,auth, username);
+                        bankingMenu(sc, bank, auth, username);
                     }
                 }
 
@@ -56,25 +58,36 @@ public class Main {
                     System.out.print("👤 Choose a username: ");
                     username = sc.nextLine();
 
-                    System.out.print("🏦 Enter your Account Number to link: ");
-                    String accountNumber = sc.nextLine();
-
-                    if (!bank.accountExists(accountNumber)) {
-                        System.out.println("❌ Invalid Account Number. Please create a bank account first.");
+                    // ✅ Check username immediately
+                    if (auth.isUsernameTaken(username)) {
+                        System.out.println("❌ Username already exists. Please try a different one.");
                         break;
                     }
 
-                    String password = readPassword("🔑 Enter password: ");
-                    String confirmPassword = readPassword("🔑 Confirm password: ");
+                    System.out.print("🏦 Enter your Account Number to link: ");
+                    String accNo = sc.nextLine();
+
+                    // ✅ Check account number immediately
+                    if (auth.isAccountLinked(accNo)) {
+                        System.out.println("❌ This Account Number is already linked to another user.");
+                        break;
+                    }
+
+                    System.out.print("🔑 Enter password: ");
+                    String password = sc.nextLine();
+                    System.out.print("🔑 Confirm password: ");
+                    String confirmPassword = sc.nextLine();
 
                     if (!password.equals(confirmPassword)) {
-                        System.out.println("❌ Passwords do not match. Try again!");
+                        System.out.println("❌ Passwords do not match!");
                         break;
                     }
 
-                    boolean registered = auth.registerUser(username, password, accountNumber);
-                    if (registered) {
-                        System.out.println("✅ Registration successful! You can now log in.");
+                    boolean success = auth.registerUser(username, password, accNo);
+                    if (success) {
+                        System.out.println("✅ Registration successful!");
+                    } else {
+                        System.out.println("❌ Registration failed. Please try again.");
                     }
                 }
 
@@ -86,6 +99,40 @@ public class Main {
                     System.out.println("👋 Thank you for using the Banking Simulator. Goodbye!");
                     return;
                 }
+
+                case "5" -> {
+                    // Forgot password BEFORE login
+                    System.out.print("Enter your bank account number to reset password: ");
+                    String accNo = sc.nextLine();
+                    boolean ok = auth.resetPasswordAndEmail(accNo);
+                    if (ok) {
+                        System.out.println("📧 A temporary password has been emailed to your account's registered email (if available).");
+                        System.out.println("🔑 Use it to login and then change your password.");
+                    } else {
+                        System.out.println("❌ Could not reset password. Make sure the account number is correct and has a registered email.");
+                    }
+                }
+                case "6" -> {
+                    System.out.print("🏦 Enter your Account Number to delete: ");
+                    String accNo = sc.nextLine().trim();
+
+                    System.out.print("⚠️ Are you sure you want to permanently delete this account? Type 'YES' to confirm: ");
+                    String confirm = sc.nextLine().trim();
+
+                    if (confirm.equalsIgnoreCase("YES")) {
+                        boolean deleted = bank.deleteBankAccount(accNo);
+
+                        if (deleted) {
+                            System.out.println("✅ Bank account and linked user deleted successfully.");
+                            System.out.println("🔒 You have been logged out automatically.");
+                        } else {
+                            System.out.println("❌ Could not find the specified account. Please check and try again.");
+                        }
+                    } else {
+                        System.out.println("❌ Deletion cancelled.");
+                    }
+                }
+
 
                 default -> System.out.println("❌ Invalid choice. Please try again.");
             }
@@ -106,6 +153,11 @@ public class Main {
                 System.out.println("5️⃣ View Transaction History");
                 System.out.println("6️⃣ Transfer Money");
                 System.out.println("7️⃣ Logout");
+                System.out.println("8️⃣ Generate Account Report");
+                System.out.println("9️⃣ Set Alert Threshold");
+                System.out.println("🔟 Update Account Details");
+                System.out.println("1️⃣1️⃣ Delete User Account");
+                System.out.println("1️⃣2️⃣ Update User Details");
                 System.out.print("Enter your choice: ");
 
                 int choice = sc.nextInt();
@@ -121,13 +173,13 @@ public class Main {
                         bank.deposit(accNo, depositAmt);
                     }
 
-                    case 2 -> { // Withdraw
+                    case 2 -> { // Withdraw (now asks for login password inside Bank.withdraw)
                         String accNo = auth.getLinkedAccount(username);
                         System.out.println("💳 Your Account Number: " + accNo);
                         System.out.print("Enter Amount to Withdraw: ");
                         double withdrawAmt = sc.nextDouble();
                         sc.nextLine();
-                        bank.withdraw(accNo, withdrawAmt);
+                        bank.withdraw(accNo, withdrawAmt, username);
                     }
 
                     case 3 -> { // Check Balance
@@ -178,10 +230,44 @@ public class Main {
                         bank.transfer(fromAcc, toAcc, amt);
                     }
 
-
                     case 7 -> {
                         System.out.println("👋 Logged out successfully. Goodbye " + username + "!");
                         return;
+                    }
+                    case 8 -> {
+                        System.out.println("📊 Generating your account report...");
+                        String accNo = auth.getLinkedAccount(username);
+                        bank.generateReport(accNo);
+                    }
+                    case 9 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        System.out.print("Enter new alert threshold amount (₹): ");
+                        double threshold = sc.nextDouble();
+                        sc.nextLine(); // consume newline
+                        bank.setAlertThreshold(accNo, threshold);
+                    }
+                    case 10 -> {
+                        String accNo = auth.getLinkedAccount(username); // use linked account
+                        System.out.println("💳 Your Account Number: " + accNo);
+                        bank.updateAccountDetails(accNo,username);
+                    }
+                    case 11 -> {
+                        String accNo = auth.getLinkedAccount(username);
+                        boolean deleted = bank.deleteAccount(accNo, username);
+                        if (deleted) {
+                            System.out.println("🚪 You have been logged out as your account is deleted.");
+                            username = null;
+                            accNo = null;
+                            return; // or break from loop
+                        }
+
+                    }
+                    case 12 -> {
+                        boolean logout = auth.updateUserDetails(username, sc);
+                        if (logout) {
+                            System.out.println("🚪 You have been logged out to apply username changes.");
+                            return; // logout if username changed
+                        }
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }
@@ -216,6 +302,18 @@ public class Main {
             System.out.println("❌ Invalid phone number. Must be exactly 10 digits.");
         }
 
+        // Email input + validation
+        String email;
+        while (true) {
+            System.out.print("Enter Email: ");
+            email = sc.nextLine().trim();
+            if (email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                break;
+            } else {
+                System.out.println("❌ Invalid email. Please enter a valid email address (contains '@' and domain).");
+            }
+        }
+
         double initDeposit;
         while (true) {
             try {
@@ -228,7 +326,7 @@ public class Main {
             }
         }
 
-        bank.createAccount(holderName, phone, initDeposit);
+        bank.createAccount(holderName, phone, initDeposit, email);
     }
 
     // ------------------------
