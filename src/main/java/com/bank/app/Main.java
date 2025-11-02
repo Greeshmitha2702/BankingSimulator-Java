@@ -156,7 +156,8 @@ public class Main {
                 System.out.println("8️⃣ Generate Account Report");
                 System.out.println("9️⃣ Set Alert Threshold");
                 System.out.println("🔟 Update Account Details");
-                System.out.println("1️⃣1️⃣ Delete Account");
+                System.out.println("1️⃣1️⃣ Delete User Account");
+                System.out.println("1️⃣2️⃣ Update User Details");
                 System.out.print("Enter your choice: ");
 
                 int choice = sc.nextInt();
@@ -260,6 +261,13 @@ public class Main {
                             return; // or break from loop
                         }
 
+                    }
+                    case 12 -> {
+                        boolean logout = auth.updateUserDetails(username, sc);
+                        if (logout) {
+                            System.out.println("🚪 You have been logged out to apply username changes.");
+                            return; // logout if username changed
+                        }
                     }
                     default -> System.out.println("❌ Invalid choice. Try again.");
                 }

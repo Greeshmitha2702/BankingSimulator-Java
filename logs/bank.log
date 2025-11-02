@@ -707,3 +707,18 @@ org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint fa
 2025-11-02 22:44:21 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user Greesh
 2025-11-02 22:44:40 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greesh
 2025-11-02 22:44:57 [INFO] com.bank.service.Bank - ✅ Deleted bank account (and linked user via CASCADE): ACC1762103402123
+2025-11-02 22:55:06 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 22:55:06 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 22:55:26 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 22:55:26 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 22:55:54 [INFO] com.bank.service.AuthService - New user registered successfully: harshi linked to account ACC1762103472297
+2025-11-02 22:56:04 [INFO] com.bank.service.AuthService - ✅ Login successful for user: harshi
+2025-11-02 22:56:43 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshi
+2025-11-02 22:57:31 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshitha
+2025-11-02 23:00:29 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 23:00:29 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 23:00:42 [WARN] com.bank.service.AuthService - ❌ Incorrect password attempt 1 for user Harshitha
+2025-11-02 23:01:11 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: Harshitha
+2025-11-02 23:01:15 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to hkankana2@gitam.in
+2025-11-02 23:02:13 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshitha
+2025-11-02 23:02:47 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshitha

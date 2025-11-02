@@ -4,6 +4,7 @@ import com.bank.dao.Database;
 import com.bank.util.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.*;
 
 import java.sql.*;
 
@@ -288,5 +289,87 @@ public class AuthService {
             e.printStackTrace();
         }
     }
+    // ✅ Update user details (username, password)
+    public boolean updateUserDetails(String currentUsername, Scanner sc) {
+        try (Connection conn = Database.getConnection()) {
 
+            System.out.println("\n🛠️ What would you like to update?");
+            System.out.println("1️⃣ Change Username");
+            System.out.println("2️⃣ Change Password");
+            System.out.print("Enter your choice: ");
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Enter new username: ");
+                    String newUsername = sc.nextLine();
+
+                    // Check if taken
+                    String checkSql = "SELECT 1 FROM users WHERE username = ?";
+                    try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                        checkStmt.setString(1, newUsername);
+                        ResultSet rs = checkStmt.executeQuery();
+                        if (rs.next()) {
+                            System.out.println("❌ That username is already taken. Please choose another.");
+                            return false;
+                        }
+                    }
+
+                    String updateSql = "UPDATE users SET username = ? WHERE username = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                        updateStmt.setString(1, newUsername);
+                        updateStmt.setString(2, currentUsername);
+                        int rows = updateStmt.executeUpdate();
+                        if (rows > 0) {
+                            System.out.println("✅ Username updated successfully! Please log in again with your new username.");
+                            return true; // 🔁 triggers logout
+                        } else {
+                            System.out.println("❌ Failed to update username.");
+                        }
+                    }
+                }
+
+                case "2" -> {
+                    System.out.print("Enter your current password: ");
+                    String currentPassword = sc.nextLine();
+
+                    if (!verifyPassword(currentUsername, currentPassword)) {
+                        System.out.println("❌ Incorrect current password!");
+                        return false;
+                    }
+
+                    System.out.print("Enter new password: ");
+                    String newPassword = sc.nextLine();
+                    System.out.print("Confirm new password: ");
+                    String confirmPassword = sc.nextLine();
+
+                    if (!newPassword.equals(confirmPassword)) {
+                        System.out.println("❌ Passwords do not match!");
+                        return false;
+                    }
+
+                    String hashed = PasswordUtil.hashPassword(newPassword);
+                    String updateSql = "UPDATE users SET password = ? WHERE username = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                        updateStmt.setString(1, hashed);
+                        updateStmt.setString(2, currentUsername);
+                        int rows = updateStmt.executeUpdate();
+                        if (rows > 0) {
+                            System.out.println("✅ Password updated successfully! Please log in again.");
+                            return true; // 🔁 also triggers logout
+                        } else {
+                            System.out.println("❌ Failed to update password.");
+                        }
+                    }
+                }
+
+                default -> System.out.println("❌ Invalid choice.");
+            }
+
+        } catch (Exception e) {
+            logger.error("Error updating user details: {}", e.getMessage());
+            System.out.println("❌ Database error while updating user details: " + e.getMessage());
+        }
+        return false;
+    }
 }
