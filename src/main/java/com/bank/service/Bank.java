@@ -625,43 +625,42 @@ public class Bank {
         try (Connection conn = Database.getConnection()) {
             if (!verifyPasswordPrompt(username, accountNumber)) return false;
 
-            System.out.print("Are you sure you want to delete this account? Type YES to confirm: ");
+            System.out.print("Are you sure you want to delete your user and transaction data but keep your bank account active? Type YES to confirm: ");
             String confirm = sc.nextLine();
             if (!confirm.equalsIgnoreCase("YES")) {
-                System.out.println("❌ Account deletion cancelled.");
+                System.out.println("❌ Deletion cancelled.");
                 return false;
             }
 
-            // Delete transactions first
+            // Delete all related transactions
             try (PreparedStatement delTx = conn.prepareStatement("DELETE FROM transactions WHERE accountNumber = ?")) {
                 delTx.setString(1, accountNumber);
-                delTx.executeUpdate();
+                int txDeleted = delTx.executeUpdate();
+                if (txDeleted > 0) {
+                    System.out.println("🧾 Deleted " + txDeleted + " transaction records.");
+                }
             }
 
-            // Delete from accounts
-            try (PreparedStatement delAcc = conn.prepareStatement("DELETE FROM accounts WHERE accountNumber = ?")) {
-                delAcc.setString(1, accountNumber);
-                int deleted = delAcc.executeUpdate();
-
-                // Delete from users table
-                try (PreparedStatement delUser = conn.prepareStatement("DELETE FROM users WHERE accountNumber = ?")) {
-                    delUser.setString(1, accountNumber);
-                    delUser.executeUpdate();
-                }
-
-                if (deleted > 0) {
-                    System.out.println("✅ Account deleted successfully.");
-                    logger.warn("Account deleted: {}", accountNumber);
+            // Delete from users table (keep the bank account)
+            try (PreparedStatement delUser = conn.prepareStatement("DELETE FROM users WHERE accountNumber = ?")) {
+                delUser.setString(1, accountNumber);
+                int userDeleted = delUser.executeUpdate();
+                if (userDeleted > 0) {
+                    System.out.println("✅ User account deleted successfully, but the bank account remains active.");
+                    logger.warn("User deleted for account: {}", accountNumber);
                     return true; // ✅ triggers logout in main program
                 } else {
-                    System.out.println("❌ Account not found.");
+                    System.out.println("⚠️ No user account found for this account number.");
                 }
             }
+
         } catch (Exception e) {
             logger.error("Error deleting account", e);
+            System.err.println("❌ Error deleting account: " + e.getMessage());
         }
         return false;
     }
+
     public boolean deleteBankAccount(String accNo) {
         String query = "DELETE FROM accounts WHERE accountNumber = ?";
 
