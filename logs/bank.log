@@ -722,3 +722,38 @@ org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint fa
 2025-11-02 23:01:15 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to hkankana2@gitam.in
 2025-11-02 23:02:13 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshitha
 2025-11-02 23:02:47 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Harshitha
+2025-11-02 23:08:10 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-02 23:08:10 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-02 23:08:46 [INFO] com.bank.service.Bank - New account created: ACC1762105126163 (Greeshmitha) with initial deposit ₹2000.0 and email lbinguma2@gitam.in
+2025-11-02 23:08:53 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-02 23:09:13 [INFO] com.bank.service.AuthService - New user registered successfully: Greesh linked to account ACC1762105126163
+2025-11-02 23:09:39 [INFO] com.bank.service.Bank - New account created: ACC1762105179098 (Afreen) with initial deposit ₹2000.0 and email adudekul2@gitam.in
+2025-11-02 23:09:43 [INFO] com.bank.service.Bank - 📨 Welcome email sent to adudekul2@gitam.in
+2025-11-02 23:10:01 [INFO] com.bank.service.AuthService - New user registered successfully: afreen linked to account ACC1762105179098
+2025-11-02 23:11:16 [INFO] com.bank.service.Bank - New account created: ACC1762105276549 (Sreya) with initial deposit ₹3000.0 and email sgali3@gitam.in
+2025-11-02 23:11:20 [INFO] com.bank.service.Bank - 📨 Welcome email sent to sgali3@gitam.in
+2025-11-02 23:11:40 [INFO] com.bank.service.AuthService - New user registered successfully: sreya linked to account ACC1762105276549
+2025-11-02 23:11:59 [INFO] com.bank.service.AuthService - ✅ Login successful for user: harshi
+2025-11-02 23:12:05 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹500.0 (Target: null)
+2025-11-02 23:12:05 [INFO] com.bank.service.Bank - Deposit ₹500.0 to account ACC1762103472297. New balance: ₹3500.0
+2025-11-02 23:12:11 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-02 23:12:23 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹200.0 (Target: ACC1762105276549)
+2025-11-02 23:12:23 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹200.0 (Target: ACC1762103472297)
+2025-11-02 23:12:23 [INFO] com.bank.service.Bank - Transfer ₹200.0 from ACC1762103472297 to ACC1762105276549
+2025-11-02 23:12:39 [INFO] com.bank.service.Bank - Alert threshold updated to ₹100.0 for account ACC1762103472297
+2025-11-02 23:12:52 [INFO] com.bank.dao.TransactionDAO - Fetched 2 transactions for report (account: ACC1762103472297)
+2025-11-02 23:12:52 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1762103472297.pdf
+2025-11-02 23:12:56 [INFO] com.bank.service.Bank - 📧 Report emailed to hkankana2@gitam.in
+2025-11-02 23:14:50 [INFO] com.bank.service.AuthService - ✅ Login successful for user: afreen
+2025-11-02 23:14:53 [INFO] com.bank.service.Bank - Checked balance for Afreen (ACC1762105179098): ₹2000.0
+2025-11-02 23:15:04 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹1000.0 (Target: null)
+2025-11-02 23:15:04 [INFO] com.bank.service.Bank - Deposit ₹1000.0 to account ACC1762105179098. New balance: ₹3000.0
+2025-11-02 23:15:15 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹600.0 (Target: null)
+2025-11-02 23:15:15 [INFO] com.bank.service.Bank - Withdrawal ₹600.0 from account ACC1762105179098. Remaining: ₹2400.0
+2025-11-02 23:15:45 [WARN] com.bank.service.Bank - Transfer failed — insufficient balance in ACC1762105179098
+2025-11-02 23:15:58 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹100.0 (Target: ACC1762105126163)
+2025-11-02 23:15:58 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹100.0 (Target: ACC1762105179098)
+2025-11-02 23:15:58 [INFO] com.bank.service.Bank - Transfer ₹100.0 from ACC1762105179098 to ACC1762105126163
+2025-11-02 23:16:05 [INFO] com.bank.dao.TransactionDAO - Fetched 3 transactions for report (account: ACC1762105179098)
+2025-11-02 23:16:05 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1762105179098.pdf
+2025-11-02 23:16:09 [INFO] com.bank.service.Bank - 📧 Report emailed to adudekul2@gitam.in
