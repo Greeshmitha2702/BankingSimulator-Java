@@ -764,3 +764,101 @@ org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint fa
 2025-11-14 20:11:53 [INFO] com.bank.service.Bank - Alert threshold updated to ₹2500.0 for account ACC1762105126163
 2025-11-14 20:12:10 [INFO] com.bank.service.Bank - Checked balance for Greeshmitha (ACC1762105126163): ₹2100.0
 2025-11-14 20:12:15 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762105126163 (₹2100.0)
+2025-11-14 20:48:26 [ERROR] com.bank.dao.Database - ❌ Failed to create tables: path to 'src/main/resources/db/bank.db': 'C:\Users\bingu\IdeaProjects\bankingsimulator\src\main\resources\db' does not exist
+java.sql.SQLException: path to 'src/main/resources/db/bank.db': 'C:\Users\bingu\IdeaProjects\bankingsimulator\src\main\resources\db' does not exist
+	at org.sqlite.SQLiteConnection.open(SQLiteConnection.java:261)
+	at org.sqlite.SQLiteConnection.<init>(SQLiteConnection.java:67)
+	at org.sqlite.jdbc3.JDBC3Connection.<init>(JDBC3Connection.java:28)
+	at org.sqlite.jdbc4.JDBC4Connection.<init>(JDBC4Connection.java:19)
+	at org.sqlite.JDBC.createConnection(JDBC.java:106)
+	at org.sqlite.JDBC.connect(JDBC.java:79)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:222)
+	at com.bank.dao.Database.getConnection(Database.java:16)
+	at com.bank.dao.Database.createTableIfNotExists(Database.java:46)
+	at com.bank.app.Main.main(Main.java:19)
+2025-11-14 20:48:35 [ERROR] com.bank.service.AuthService - Error checking user existence: path to 'src/main/resources/db/bank.db': 'C:\Users\bingu\IdeaProjects\bankingsimulator\src\main\resources\db' does not exist
+2025-11-14 20:49:45 [ERROR] com.bank.dao.Database - ❌ Failed to create tables: path to 'src/main/resources/db/bank.db': 'C:\Users\bingu\IdeaProjects\bankingsimulator\src\main\resources\db' does not exist
+java.sql.SQLException: path to 'src/main/resources/db/bank.db': 'C:\Users\bingu\IdeaProjects\bankingsimulator\src\main\resources\db' does not exist
+	at org.sqlite.SQLiteConnection.open(SQLiteConnection.java:261)
+	at org.sqlite.SQLiteConnection.<init>(SQLiteConnection.java:67)
+	at org.sqlite.jdbc3.JDBC3Connection.<init>(JDBC3Connection.java:28)
+	at org.sqlite.jdbc4.JDBC4Connection.<init>(JDBC4Connection.java:19)
+	at org.sqlite.JDBC.createConnection(JDBC.java:106)
+	at org.sqlite.JDBC.connect(JDBC.java:79)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:222)
+	at com.bank.dao.Database.getConnection(Database.java:16)
+	at com.bank.dao.Database.createTableIfNotExists(Database.java:46)
+	at com.bank.app.Main.main(Main.java:19)
+2025-11-14 20:51:35 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 20:51:35 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 20:52:34 [ERROR] com.bank.service.Bank - Error creating account for Greeshmitha
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table accounts has no column named locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+	at org.sqlite.core.DB.newSQLException(DB.java:1190)
+	at org.sqlite.core.DB.throwex(DB.java:1150)
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method)
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:132)
+	at org.sqlite.core.DB.prepare(DB.java:264)
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:46)
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:32)
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:25)
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:34)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:225)
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:205)
+	at com.bank.service.Bank.createAccount(Bank.java:86)
+	at com.bank.app.Main.createBankAccount(Main.java:329)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-14 20:53:21 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 20:53:21 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 20:54:43 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 20:54:43 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 20:55:06 [INFO] com.bank.service.Bank - New account created: ACC1763133906641 (Greeshmitha) with initial deposit ₹2000.0 and email lbinguma2@gitam.in
+2025-11-14 21:03:28 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 21:03:28 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 21:03:50 [INFO] com.bank.service.Bank - New account created: ACC1763134430455 (Greeshmitha) with initial deposit ₹2000.0 and email lbinguma2@gitam.in
+2025-11-14 21:03:50 [ERROR] com.bank.service.Bank - ❌ Failed to send welcome email to lbinguma2@gitam.in
+java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is null
+	at jakarta.mail.internet.InternetAddress.parse(InternetAddress.java:769)
+	at jakarta.mail.internet.InternetAddress.parse(InternetAddress.java:728)
+	at jakarta.mail.internet.InternetAddress.<init>(InternetAddress.java:95)
+	at com.bank.service.EmailService.sendEmail(EmailService.java:36)
+	at com.bank.service.Bank.createAccount(Bank.java:105)
+	at com.bank.app.Main.createBankAccount(Main.java:329)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-14 21:04:54 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 21:04:54 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 21:05:15 [INFO] com.bank.service.Bank - New account created: ACC1763134515000 (greeshmitha) with initial deposit ₹2000.0 and email lbinguma2@gitam.in
+2025-11-14 21:05:15 [ERROR] com.bank.service.Bank - ❌ Failed to send welcome email to lbinguma2@gitam.in
+java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is null
+	at jakarta.mail.internet.InternetAddress.parse(InternetAddress.java:769)
+	at jakarta.mail.internet.InternetAddress.parse(InternetAddress.java:728)
+	at jakarta.mail.internet.InternetAddress.<init>(InternetAddress.java:95)
+	at com.bank.service.EmailService.sendEmail(EmailService.java:36)
+	at com.bank.service.Bank.createAccount(Bank.java:105)
+	at com.bank.app.Main.createBankAccount(Main.java:329)
+	at com.bank.app.Main.main(Main.java:95)
+2025-11-14 21:05:49 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 21:05:49 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 21:06:05 [INFO] com.bank.service.Bank - New account created: ACC1763134565706 (greesh) with initial deposit ₹2000.0 and email lbinguma2@gitam.in
+2025-11-14 21:06:10 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-14 21:06:33 [INFO] com.bank.service.AuthService - New user registered successfully: Greesh linked to account ACC1763134565706
+2025-11-14 21:06:41 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greesh
+2025-11-14 21:06:53 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹200.0 (Target: null)
+2025-11-14 21:06:53 [INFO] com.bank.service.Bank - Deposit ₹200.0 to account ACC1763134565706. New balance: ₹2200.0
+2025-11-14 21:07:05 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: withdraw ₹200.0 (Target: null)
+2025-11-14 21:07:05 [INFO] com.bank.service.Bank - Withdrawal ₹200.0 from account ACC1763134565706. Remaining: ₹2000.0
+2025-11-14 21:07:08 [INFO] com.bank.service.Bank - Checked balance for greesh (ACC1763134565706): ₹2000.0
+2025-11-14 21:07:13 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-14 21:07:48 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹500.0 (Target: ACC1763134515000)
+2025-11-14 21:07:48 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹500.0 (Target: ACC1763134565706)
+2025-11-14 21:07:48 [INFO] com.bank.service.Bank - Transfer ₹500.0 from ACC1763134565706 to ACC1763134515000
+2025-11-14 21:07:52 [INFO] com.bank.dao.TransactionDAO - Fetched 3 transactions for report (account: ACC1763134565706)
+2025-11-14 21:07:52 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1763134565706.pdf
+2025-11-14 21:07:57 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-14 21:08:06 [INFO] com.bank.service.Bank - Alert threshold updated to ₹1000.0 for account ACC1763134565706
+2025-11-14 21:08:15 [INFO] com.bank.service.Bank - Alert threshold updated to ₹2000.0 for account ACC1763134565706
+2025-11-14 21:08:24 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1763134565706
+2025-11-14 21:08:37 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1763134565706
+2025-11-14 21:08:37 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1763134565706
