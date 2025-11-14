@@ -1,15 +1,19 @@
-package com.bank;
+package com.bank.model;
 
 public class Account {
     private final String accountNumber;
     private final String accountHolder;
     private double balance;
+    private String phone;
 
-    public Account(String accountNumber, String accountHolder, double initialBalance) {
+
+    public Account(String accountNumber, String accountHolder, String phone, double balance) {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
-        this.balance = initialBalance;
+        this.phone = phone;
+        this.balance = balance;
     }
+
 
     public void deposit(double amount) {
         if (amount > 0) {
@@ -38,6 +42,10 @@ public class Account {
     public String getAccountNumber() {
         return accountNumber;
     }
+    public String getPhone() {
+        return phone;
+    }
+
 
     public String getAccountHolder() {
         return accountHolder;
@@ -45,6 +53,12 @@ public class Account {
 
     @Override
     public String toString() {
-        return accountHolder + " (Account No: " + accountNumber + ", Balance: ₹" + balance + ")";
+        return "Account{" +
+                "Account No='" + accountNumber + '\'' +
+                ", Holder='" + accountHolder + '\'' +
+                ", Phone='" + phone + '\'' +
+                ", Balance=" + balance +
+                '}';
     }
+
 }
