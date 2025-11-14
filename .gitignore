@@ -39,3 +39,4 @@ build/
 .DS_Store
 
 .env
+src/main/resources/db/bank.db

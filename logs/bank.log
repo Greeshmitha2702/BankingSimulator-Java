@@ -757,3 +757,10 @@ org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_NOTNULL] A NOT NULL constraint fa
 2025-11-02 23:16:05 [INFO] com.bank.dao.TransactionDAO - Fetched 3 transactions for report (account: ACC1762105179098)
 2025-11-02 23:16:05 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1762105179098.pdf
 2025-11-02 23:16:09 [INFO] com.bank.service.Bank - 📧 Report emailed to adudekul2@gitam.in
+2025-11-14 20:09:12 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-14 20:09:12 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-14 20:10:58 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Greesh
+2025-11-14 20:11:36 [INFO] com.bank.service.Bank - Checked balance for Greeshmitha (ACC1762105126163): ₹2100.0
+2025-11-14 20:11:53 [INFO] com.bank.service.Bank - Alert threshold updated to ₹2500.0 for account ACC1762105126163
+2025-11-14 20:12:10 [INFO] com.bank.service.Bank - Checked balance for Greeshmitha (ACC1762105126163): ₹2100.0
+2025-11-14 20:12:15 [INFO] com.bank.service.Bank - 📧 Low balance alert sent to lbinguma2@gitam.in for account ACC1762105126163 (₹2100.0)
