@@ -862,3 +862,35 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is n
 2025-11-14 21:08:24 [INFO] com.bank.service.Bank - ✏️ Updating details for account: ACC1763134565706
 2025-11-14 21:08:37 [INFO] com.bank.service.Bank - ✅ Email also updated in users table for account: ACC1763134565706
 2025-11-14 21:08:37 [INFO] com.bank.service.Bank - ✅ Account details successfully updated for account: ACC1763134565706
+2025-11-19 19:59:55 [INFO] com.bank.dao.Database - ✅ Tables 'accounts' and 'users' ready (with email column) in database.
+2025-11-19 19:59:55 [INFO] com.bank.dao.TransactionDAO - Transactions table verified/created successfully.
+2025-11-19 20:00:22 [INFO] com.bank.service.Bank - New account created: ACC1763562622690 (Harshitha) with initial deposit ₹2000.0 and email hkankana2@gitam.in
+2025-11-19 20:00:27 [INFO] com.bank.service.Bank - 📨 Welcome email sent to hkankana2@gitam.in
+2025-11-19 20:01:17 [INFO] com.bank.service.AuthService - New user registered successfully: Harshitha linked to account ACC1763562622690
+2025-11-19 20:01:50 [INFO] com.bank.service.Bank - New account created: ACC1763562710362 (Afreen) with initial deposit ₹3000.0 and email adudekul2@gitam.in
+2025-11-19 20:01:54 [INFO] com.bank.service.Bank - 📨 Welcome email sent to adudekul2@gitam.in
+2025-11-19 20:02:17 [INFO] com.bank.service.AuthService - New user registered successfully: Afreen linked to account ACC1763562710362
+2025-11-19 20:02:43 [INFO] com.bank.service.Bank - New account created: ACC1763562763663 (Sreya) with initial deposit ₹2000.0 and email sgali3@gitam.in
+2025-11-19 20:02:47 [INFO] com.bank.service.Bank - 📨 Welcome email sent to sgali3@gitam.in
+2025-11-19 20:03:03 [INFO] com.bank.service.AuthService - New user registered successfully: Sreya linked to account ACC1763562763663
+2025-11-19 20:03:30 [INFO] com.bank.service.Bank - New account created: ACC1763562810903 (Lakshmi) with initial deposit ₹400.0 and email lbinguma2@gitam.in
+2025-11-19 20:03:34 [INFO] com.bank.service.Bank - 📨 Welcome email sent to lbinguma2@gitam.in
+2025-11-19 20:04:00 [INFO] com.bank.service.AuthService - New user registered successfully: Lakshmi linked to account ACC1763562810903
+2025-11-19 20:04:59 [INFO] com.bank.service.AuthService - ✅ Login successful for user: Lakshmi
+2025-11-19 20:05:12 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: deposit ₹2000.0 (Target: null)
+2025-11-19 20:05:12 [INFO] com.bank.service.Bank - Deposit ₹2000.0 to account ACC1763562810903. New balance: ₹2400.0
+2025-11-19 20:05:44 [INFO] com.bank.service.Bank - Checked balance for Lakshmi (ACC1763562810903): ₹2400.0
+2025-11-19 20:05:49 [INFO] com.bank.service.Bank - Displayed all accounts.
+2025-11-19 20:06:09 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: transfer ₹200.0 (Target: ACC1763562710362)
+2025-11-19 20:06:09 [INFO] com.bank.dao.TransactionDAO - Transaction recorded: credit ₹200.0 (Target: ACC1763562810903)
+2025-11-19 20:06:09 [INFO] com.bank.service.Bank - Transfer ₹200.0 from ACC1763562810903 to ACC1763562710362
+2025-11-19 20:06:18 [INFO] com.bank.dao.TransactionDAO - Fetched 2 transactions for report (account: ACC1763562810903)
+2025-11-19 20:06:18 [INFO] com.bank.report.ReportGenerator - ✅ PDF report generated successfully at reports/report_ACC1763562810903.pdf
+2025-11-19 20:06:22 [INFO] com.bank.service.Bank - 📧 Report emailed to lbinguma2@gitam.in
+2025-11-20 21:49:59 [ERROR] com.bank.service.AuthService - Database error while registering user testUser: [SQLITE_CONSTRAINT_FOREIGNKEY] A foreign key constraint failed (FOREIGN KEY constraint failed)
+2025-11-20 21:49:59 [WARN] com.bank.service.AuthService - Invalid login attempt for username: unknown
+2025-11-20 21:49:59 [WARN] com.bank.service.AuthService - ⚠️ Password reset attempted for non-existing account: ACC001
+2025-11-20 21:50:32 [WARN] com.bank.service.AuthService - Duplicate registration attempt: username=testUser or accountNumber=ACC1763562810903
+2025-11-20 21:50:32 [WARN] com.bank.service.AuthService - Invalid login attempt for username: unknown
+2025-11-20 21:50:33 [INFO] com.bank.service.AuthService - 🔓 Password reset and account unlocked for user: Lakshmi
+2025-11-20 21:50:39 [INFO] com.bank.service.AuthService - 📧 Temporary password sent to lbinguma2@gitam.in
